@@ -6,7 +6,7 @@
 <IfModule mod_rewrite.c>
     #Options +FollowSymLinks
     RewriteEngine on
-    #RewriteBase /
+    RewriteBase /
 
     RewriteCond $1 !^(index\.php|google89147be2b2c2adc4.html|images|stylesheets|scripts|robots\.txt|server-status)
     #Send request via index.php
