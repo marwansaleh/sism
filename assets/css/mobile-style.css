@@ -1,0 +1,30 @@
+@import url("http://fonts.googleapis.com/css?family=Open+Sans:400,700,300,300italic,400italic");
+
+a, a:hover {
+  color: #000;
+}
+a:hover {
+  text-transform: none;
+}
+.media-list {margin-top: 10px;}
+.media-list .media {
+    cursor: pointer; 
+    margin: 0;
+    padding:10px; 
+    border-bottom: solid 1px #d3d2d2;
+    -webkit-transition: all .4s ease-in-out;
+    -moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -ms-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+}
+.media-list .media:hover{background-color: #ccedfc;}
+.media-list .media:last-child {border-bottom: none;}
+
+.media-list .first-item img {display:block; margin-bottom: 20px;}
+.media-list .media-heading {font-size: 15px;}
+article figure {margin-bottom: 20px;}
+article .info {font-style: italic; display: inline-block;}
+article .info .date {color: #001f3f;}
+article .info .author {color: #080808;}
+article .content {font-size: 14px;}
