@@ -34,15 +34,9 @@
                         <tr>
                             <td><?php echo ($offset+$i++); ?>.</td>
                             <td><?php echo ucfirst($item->name); ?></td>
-                            <td><?php echo stripos($item->var_name,'password')!==FALSE?  masking_chars($item->var_value,0,'*',5):$item->var_value; ?></td>
-                            <td><?php echo $item->var_type; ?></td>
-                            <td class="text-center">
-                                <?php if ($item->is_list==1): ?>
-                                <i class="fa fa-check-circle text-primary"></i>
-                                <?php else:?>
-                                <i class="fa fa-check-circle-o text-gray"></i>
-                                <?php endif; ?>
-                            </td>
+                            <td><?php echo isset($item->header)?$item->header:''; ?></td>
+                            <td><?php echo isset($item->body)?$item->body:''; ?></td>
+                            <td><?php echo isset($item->footer)?$item->footer:''; ?></td>
                             <td class="text-center">
                                 <a class="btn btn-xs btn-warning" data-toggle="tooltip" title="Edit" href="<?php echo site_url('sysconf/edit?id='.$item->id.'&page='.$page); ?>"><i class="fa fa-pencil-square"></i></a>
                                 <a class="btn btn-xs btn-danger confirmation" data-toggle="tooltip" title="Delete" data-confirmation="Are your sure to delete this record ?" href="<?php echo site_url('sysconf/delete?id='.$item->id.'&page='.$page); ?>"><i class="fa fa-minus-square"></i></a>
