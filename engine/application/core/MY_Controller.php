@@ -10,6 +10,7 @@ class MY_BaseController extends CI_Controller {
     
     function __construct() {
         parent::__construct();
+        $this->_cookie_visitor = ENVIRONMENT . $this->_cookie_visitor;
         
         //Load User Library
         $this->users = Userlib::getInstance();
@@ -78,7 +79,7 @@ class MY_BaseController extends CI_Controller {
             date('Y-m-d H:i:s'), 
             $this->_get_unique_visitor(), 
             $this->input->ip_address(),
-            ($class_name ? '['. $class_name .'] ' : '') .$event_name
+            '['.  strtoupper(ENVIRONMENT).'] ' . ($class_name ? '['. $class_name .'] ' : '') . $event_name
         );
         
         if ($fp = @fopen($this->_log_path . $this->_log_file, 'a')){
