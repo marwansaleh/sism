@@ -26,7 +26,7 @@ class Dashboard extends MY_AdminController {
         $this->data['outgoing_count'] = $this->outgoing_m->get_count(array('sender'=>$me->id));
         //get num of disposition
         $this->data['disposition_send_count'] = $this->disposition_m->get_count(array('sender'=>$me->id));
-        $this->data['disposition_receive_count'] = $this->disposition_m->get_count(array('receive'=>$me->id));
+        $this->data['disposition_receive_count'] = $this->disposition_m->get_count(array('receiver'=>$me->id));
         
         //get visitors
         $this->data['user_count'] = $this->user_m->get_count();
