@@ -73,11 +73,12 @@ class MY_BaseController extends CI_Controller {
      * @throws Exception if failed
      */
     public function _write_log($event_name=''){
+        $class_name = get_class($this);
         $content = array(
             date('Y-m-d H:i:s'), 
             $this->_get_unique_visitor(), 
             $this->input->ip_address(),
-            $event_name
+            ($class_name ? '['. $class_name .'] ' : '') .$event_name
         );
         
         if ($fp = @fopen($this->_log_path . $this->_log_file, 'a')){
