@@ -62,5 +62,9 @@ define('MAIL_STATUS_CLOSED', 20);
 define('SIDE_RECEIVER', 'receiver');
 define('SIDE_SENDER', 'sender');
 
+define('SURAT_KELUAR_BIASA', 'biasa');
+define('SURAT_KELUAR_NODIN', 'notadinas');
+define('SURAT_KELUAR_TUGAS', 'surattugas');
+
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */
