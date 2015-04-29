@@ -612,6 +612,17 @@ if (!function_exists('text_cutter')){
     }
 }
 
+if (!function_exists('template_autotext')){
+    function template_autotext(){
+        $elements = array(
+            '{nomor_surat}'         => 'Nomor surat',
+            '{tanggal}'             => 'Tanggal hari ini'
+        );
+        
+        return $elements;
+    }
+}
+
 /*
  * file location: /application/helpers/general_helper.php
  */
