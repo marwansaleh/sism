@@ -5,6 +5,7 @@
  * @author marwansaleh
  */
 class Auth extends MY_Controller {
+    
     function __construct() {
         parent::__construct();
         $this->data['body_class'] = 'login-img-body';
@@ -19,6 +20,8 @@ class Auth extends MY_Controller {
         
         if ($this->session->flashdata('message')){
             $this->data['message_error'] = create_alert_box($this->session->flashdata('message'), $this->session->flashdata('message_type'));
+            
+            var_dump($this->data['message_error']);exit;
         }
         
         $cookie_login = $this->input->cookie('cookie-login');
@@ -27,8 +30,6 @@ class Auth extends MY_Controller {
         }else{
             $this->data['remember'] = NULL;
         }
-        
-        $this->_write_log('Trying to login');
         
         $this->data['submit'] = site_url('auth/login');
         $this->data['subview'] = 'login/index';
@@ -42,8 +43,6 @@ class Auth extends MY_Controller {
         
         $rules = $this->user_m->rules_login;
         $this->form_validation->set_rules($rules);
-        
-        $this->_write_log('Sending login validation');
         
         //exit(print_r($rules));
         if ($this->form_validation->run() != FALSE) {
@@ -73,9 +72,11 @@ class Auth extends MY_Controller {
                 $this->session->set_flashdata('message', $this->users->get_message());
                 
                 $this->_write_log('Login failed using username '.$username);
+                
+                redirect('auth');exit;
             }else{
-                $this->_write_log('Success login for user '.  json_encode($user));
-                redirect(site_url('dashboard'));exit;
+                $this->_write_log('Success login for username '.  $username);
+                redirect('dashboard');exit;
             }
         }
         
@@ -90,7 +91,7 @@ class Auth extends MY_Controller {
     function logout(){
         
         $this->users->logout();
-        redirect(site_url('auth'));
+        redirect('auth');
     }
     
     
