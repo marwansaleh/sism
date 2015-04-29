@@ -266,7 +266,7 @@ $config['sess_time_to_update']	= 300;
 |
 */
 $config['cookie_prefix']	= "sism_";
-$config['cookie_domain']	= ".nasabah.co";
+$config['cookie_domain']	= "localhost";
 $config['cookie_path']		= "/";
 $config['cookie_secure']	= FALSE;
 
