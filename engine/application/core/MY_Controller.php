@@ -10,7 +10,6 @@ class MY_BaseController extends CI_Controller {
     
     function __construct() {
         parent::__construct();
-        $this->_cookie_visitor = ENVIRONMENT . $this->_cookie_visitor;
         
         //Load User Library
         $this->users = Userlib::getInstance();
