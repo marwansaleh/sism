@@ -75,7 +75,7 @@ class Auth extends MY_Controller {
                 
                 redirect('auth');exit;
             }else{
-                $this->_write_log('Success login for username '.  $username);
+                $this->_write_log('Success login for username '.  $username.'...redirecting to admin page...');
                 redirect('dashboard');exit;
             }
         }
