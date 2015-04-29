@@ -66,5 +66,9 @@ define('SURAT_KELUAR_BIASA', 'biasa');
 define('SURAT_KELUAR_NODIN', 'notadinas');
 define('SURAT_KELUAR_TUGAS', 'surattugas');
 
+define('TPL_EL_HEADER', 'header');
+define('TPL_EL_BODY', 'body');
+define('TPL_EL_FOOTER', 'footer');
+
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */
