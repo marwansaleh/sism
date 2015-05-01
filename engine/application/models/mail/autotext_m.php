@@ -13,5 +13,5 @@ class Autotext_m extends MY_Model {
 }
 
 /*
- * file location: engine/application/models/mail/template_m.php
+ * file location: engine/application/models/mail/autotext_m.php
  */
