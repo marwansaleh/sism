@@ -70,5 +70,10 @@ define('TPL_EL_HEADER', 'header');
 define('TPL_EL_BODY', 'body');
 define('TPL_EL_FOOTER', 'footer');
 
+define ('AUTOTEXT_TYPE_TEXT', 'text');
+define ('AUTOTEXT_TYPE_NUMBER', 'number');
+define ('AUTOTEXT_TYPE_IMAGE', 'image');
+
+
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */
