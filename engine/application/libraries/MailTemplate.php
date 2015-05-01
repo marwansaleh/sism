@@ -61,6 +61,8 @@ class MailTemplate extends Library {
         if (!$autotext){
             return NULL;
         }
+        //give marks for name
+        $autotext->code = '{'.$autotext->name.'}';
         switch ($autotext->content_type){
             case AUTOTEXT_TYPE_IMAGE:
         }
