@@ -20,7 +20,7 @@ class Template_m extends MY_Model {
         'header' => array(
             'field' => 'header', 
             'label' => 'Header', 
-            'rules' => 'trim|required|xss_clean'
+            'rules' => 'trim|xss_clean'
         ),
         'body' => array(
             'field' => 'body', 
