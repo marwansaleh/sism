@@ -50,38 +50,48 @@ class Template extends MY_AdminController {
         $this->data['pagination_description'] = smart_paging_description($this->data['totalRecords'], count($this->data['items']));
         
         //set breadcumb
-        breadcumb_add($this->data['breadcumb'], 'Templates', site_url('sysconf'), TRUE);
+        breadcumb_add($this->data['breadcumb'], 'Templates', site_url('template'), TRUE);
         
         $this->data['subview'] = 'cms/mail/template/index';
         $this->load->view('_layout_admin', $this->data);
     }
     
     function edit(){
-        $this->load->helper('custom_value');
         $id = $this->input->get('id', TRUE);
         $page = $this->input->get('page', TRUE);
         
-        if (!$this->users->has_access('SYS_PARAMETERS')){
+        if (!$this->users->has_access('TEMPLATE_MANAGEMENT')){
             $this->session->set_flashdata('message_type','error');
             $this->session->set_flashdata('message', 'Sorry. You dont have access for this feature');
-            redirect('sysconf/index?page='.$page);
+            redirect('template/index?page='.$page);
         }
         
         if ($id){
-            $item = $this->sys_variables_m->get($id);
+            $item = $this->template_m->get($id);
         }else{
-            $item = $this->sys_variables_m->get_new();
+            $item = $this->template_m->get_new();
+        }
+        
+        if ($item->content){
+            $content = json_decode($item->content);
+            foreach ($content as $key => $val){
+                $item->$key = $val;
+            }
         }
         
         $this->data['item'] = $item;
         
+        //get supported data
+        $template = MailTemplate::getInstance();
+        $this->data['autotexts'] = $template->get_autotexts();
+        
         //set breadcumb
-        breadcumb_add($this->data['breadcumb'], 'System Configuration', site_url('sysconf'));
+        breadcumb_add($this->data['breadcumb'], 'Templates', site_url('template'), TRUE);
         breadcumb_add($this->data['breadcumb'], 'Update', NULL, TRUE);
         
-        $this->data['submit_url'] = site_url('sysconf/save?id='.$id.'&page='.$page);
-        $this->data['back_url'] = site_url('sysconf/index?page='.$page);
-        $this->data['subview'] = 'cms/system/config/edit';
+        $this->data['submit_url'] = site_url('template/save?id='.$id.'&page='.$page);
+        $this->data['back_url'] = site_url('template/index?page='.$page);
+        $this->data['subview'] = 'cms/mail/template/edit';
         
         $this->load->view('_layout_admin', $this->data);
     }
@@ -90,13 +100,13 @@ class Template extends MY_AdminController {
         $id = $this->input->get('id', TRUE);
         $page = $this->input->get('page', TRUE);
         
-        if (!$this->users->has_access('SYS_PARAMETERS')){
+        if (!$this->users->has_access('TEMPLATE_MANAGEMENT')){
             $this->session->set_flashdata('message_type','error');
             $this->session->set_flashdata('message', 'Sorry. You dont have access for this feature');
-            redirect('sysconf/index?page='.$page);
+            redirect('template/index?page='.$page);
         }
         
-        $rules = $this->sys_variables_m->rules;
+        $rules = $this->template_m->rules;
         $this->form_validation->set_rules($rules);
         //exit(print_r($rules));
         if ($this->form_validation->run() != FALSE) {
