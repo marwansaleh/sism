@@ -34,8 +34,8 @@
                     <div class="col-sm-2">
                         <label>Select Autotext</label>
                         <div class="list-group autotext-list">
-                            <?php foreach ($autotext as $at_key => $at_label): ?>
-                            <a href="#" class="list-group-item" data-toggle="tooltip" title="<?php echo $at_key; ?>" data-text="<?php echo $at_key; ?>"><?php echo $at_label; ?></a>
+                            <?php foreach ($autotexts as $autotext): ?>
+                            <a href="javascript:void();" class="list-group-item" data-toggle="tooltip" title="<?php echo $autotext->title; ?>" data-text="<?php echo $autotext->code; ?>"><?php echo $autotext->name; ?></a>
                             <?php endforeach; ?>
                         </div>
                     </div>
@@ -52,23 +52,57 @@
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function(){
-        $('.autotext-list').on('click', 'a',function(){
-            //var $focused = $('textarea :focus');
-            //var current_content = $focus.val();
-            //$focus.val(current_content + $(this).attr('data-text'));
-            var auto_text = $(this).attr('data-text');
+    var templateManager = {
+        activeEditor: null,
+        initEditor: function (){
+            var _this = this;
+            $('.editor').wysihtml5({
+                "font-styles"   : true,
+                "emphasis"      : true,
+                "lists"         : true,
+                "link"          : false,
+                "image"         : false,
+                "color"         : false,
+                "events"        : {
+                    "focus:composer"     : function (){
+                        _this.activeEditor = this;
+                    }
+                }
+            });
+        },
+        getActiveEditor: function (){
+            if (this.activeEditor){
+                return this.activeEditor;
+            }else{
+                return $('.editor').eq(0).data('wysihtml5').editor;
+            }
+        },
+        insertAutoText: function (ref){
+            var _this = this;
+            //get autotext code from selected option
+            var code = $(ref).attr('data-text');
+            if (!code){ return; }
             
-            return false;
-        });
+            //get active editor
+            var editor = _this.getActiveEditor();
+            
+            //check against the object
+            if (editor){
+                editor.composer.commands.exec("insertHTML",code);
+            }else{
+                alert('Can not find an editor / composer');
+            }
+            
+            return;
+        }
+    };
+    
+    $(document).ready(function(){
+        templateManager.initEditor();
         
-        $('.editor').wysihtml5({
-            "font-styles"   : true,
-            "emphasis"      : true,
-            "lists"         : true,
-            "link"          : false,
-            "image"         : false,
-            "color"         : false
+        $('.autotext-list').on('click', 'a',function(){
+            templateManager.insertAutoText($(this));
+            return false;
         });
     });
 </script>
