@@ -6,7 +6,14 @@
     <li <?php echo $active_menu=='disposition'?'class="active"':''; ?>><a href="<?php echo site_url('disposition'); ?>"><i class="fa fa-mail-forward"></i> <span>Surat Disposisi</span></a></li>
     <li <?php echo $active_menu=='outgoing'?'class="active"':''; ?>><a href="<?php echo site_url('outgoing'); ?>"><i class="fa fa-mail-reply"></i> <span>Surat Keluar</span></a></li>
     <li <?php echo $active_menu=='report'?'class="active"':''; ?>><a href="<?php echo site_url('report'); ?>"><i class="fa fa-calendar-o"></i> <span>Laporan</span></a></li>
-    <li <?php echo $active_menu=='template'?'class="active"':''; ?>><a href="<?php echo site_url('template'); ?>"><i class="fa fa-paragraph"></i> <span>Template</span></a></li>
+    
+    <li class="treeview <?php echo $active_menu=='template'||$active_menu=='autotext'?'active':'';?>">
+        <a href="#"><i class="fa fa-paragraph"></i> <span>Mail Template</span>  <i class="fa fa-angle-left pull-right"></i></a>
+        <ul class="treeview-menu">
+            <li <?php echo $active_menu=='template'?'class="active"':''; ?>><a href="<?php echo site_url('template'); ?>">Template</a></li>
+            <li <?php echo $active_menu=='autotext'?'class="active"':''; ?>><a href="<?php echo site_url('autotext'); ?>">Auto Text</a></li>
+        </ul>
+    </li>
     <li class="treeview">
         <a href="#"><i class="fa fa-envelope"></i> <span>Log Email</span>  <i class="fa fa-angle-left pull-right"></i></a>
         <ul class="treeview-menu">
