@@ -125,7 +125,6 @@
         <!-- Bootstrap fileinput -->
         <script src="<?php echo site_url(config_item('path_lib').'bootstrap-fileinput/js/fileinput.min.js'); ?>"></script>
         <!-- wysiwyg -->
-        <!--<script src="<?php echo site_url(config_item('path_lib').'wysihtml5/wysihtml5x.min.js'); ?>"></script>-->
         <script src="<?php echo site_url(config_item('path_lib').'bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js'); ?>"></script>
         <!-- Hidetext -->
         <script src="<?php echo site_url(config_item('path_lib').'hidetext/hidetext.js'); ?>"></script>
