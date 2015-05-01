@@ -15,7 +15,7 @@ class Template_m extends MY_Model {
         'name' => array(
             'field' => 'name', 
             'label' => 'Template name', 
-            'rules' => 'trim|required|xss_clean'
+            'rules' => 'trim|required|xss_clean|callback__unique_template_name["name"]'
         ),
         'header' => array(
             'field' => 'header', 
