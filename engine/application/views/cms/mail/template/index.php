@@ -11,7 +11,7 @@
                         <input type="text" name="table_search" class="form-control input-sm pull-right" style="width: 250px;" placeholder="Search">
                         <div class="input-group-btn">
                             <button type="submit" class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
-                            <a class="btn btn-sm btn-primary" data-toggle="tooltip" title="Create" href="<?php echo site_url('sysconf/edit'); ?>"><i class="fa fa-plus-square"></i></a>
+                            <a class="btn btn-sm btn-primary" data-toggle="tooltip" title="Create" href="<?php echo site_url('template/edit'); ?>"><i class="fa fa-plus-square"></i></a>
                         </div>
                     </div>
                 </div>
@@ -38,8 +38,8 @@
                             <td><?php echo isset($item->body)?$item->body:''; ?></td>
                             <td><?php echo isset($item->footer)?$item->footer:''; ?></td>
                             <td class="text-center">
-                                <a class="btn btn-xs btn-warning" data-toggle="tooltip" title="Edit" href="<?php echo site_url('sysconf/edit?id='.$item->id.'&page='.$page); ?>"><i class="fa fa-pencil-square"></i></a>
-                                <a class="btn btn-xs btn-danger confirmation" data-toggle="tooltip" title="Delete" data-confirmation="Are your sure to delete this record ?" href="<?php echo site_url('sysconf/delete?id='.$item->id.'&page='.$page); ?>"><i class="fa fa-minus-square"></i></a>
+                                <a class="btn btn-xs btn-warning" data-toggle="tooltip" title="Edit" href="<?php echo site_url('template/edit?id='.$item->id.'&page='.$page); ?>"><i class="fa fa-pencil-square"></i></a>
+                                <a class="btn btn-xs btn-danger confirmation" data-toggle="tooltip" title="Delete" data-confirmation="Are your sure to delete this record ?" href="<?php echo site_url('template/delete?id='.$item->id.'&page='.$page); ?>"><i class="fa fa-minus-square"></i></a>
                             </td>
                         </tr>
                         <?php endforeach; ?>
