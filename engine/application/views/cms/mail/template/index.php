@@ -23,10 +23,9 @@
                         <tr>
                             <th style="width: 10px">#</th>
                             <th>Template Name</th>
-                            <th>Header</th>
-                            <th>Body</th>
-                            <th>Footer</th>
-                            <th style="width: 90px">Action</th>
+                            <th>Attributes</th>
+                            <th class="text-center">Available</th>
+                            <th class="text-center" style="width: 120px">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -34,12 +33,12 @@
                         <tr>
                             <td><?php echo ($offset+$i++); ?>.</td>
                             <td><?php echo ucfirst($item->name); ?></td>
-                            <td><?php echo isset($item->header)?$item->header:''; ?></td>
-                            <td><?php echo isset($item->body)?$item->body:''; ?></td>
-                            <td><?php echo isset($item->footer)?$item->footer:''; ?></td>
+                            <td><?php echo $item->attributes; ?></td>
+                            <td class="text-center"><?php echo $item->available==1?'Available':'Not Available'; ?></td>
                             <td class="text-center">
                                 <a class="btn btn-xs btn-warning" data-toggle="tooltip" title="Edit" href="<?php echo site_url('template/edit?id='.$item->id.'&page='.$page); ?>"><i class="fa fa-pencil-square"></i></a>
                                 <a class="btn btn-xs btn-danger confirmation" data-toggle="tooltip" title="Delete" data-confirmation="Are your sure to delete this record ?" href="<?php echo site_url('template/delete?id='.$item->id.'&page='.$page); ?>"><i class="fa fa-minus-square"></i></a>
+                                <a class="btn btn-xs btn-info" data-toggle="tooltip" title="Preview" href="<?php echo site_url('template/preview?id='.$item->id.'&page='.$page); ?>"><i class="fa fa-eye"></i></a>
                             </td>
                         </tr>
                         <?php endforeach; ?>
