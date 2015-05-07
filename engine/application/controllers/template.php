@@ -33,14 +33,6 @@ class Template extends MY_AdminController {
             $items = $this->template_m->get_offset('*',$where,$offset,  $this->REC_PER_PAGE);
             if ($items){
                 foreach($items as $item){
-                    $content = $item->content;
-                    if ($content){
-                        $content = json_decode($content);
-                        foreach ($content as $key=>$value){
-                            $item->$key = $value;
-                        }
-                    }
-                    
                     $this->data['items'][] = $item;
                 }
                 $url_format = site_url('template/index?page=%i');
@@ -68,22 +60,28 @@ class Template extends MY_AdminController {
         
         if ($id){
             $item = $this->template_m->get($id);
+            $item->styles = json_decode($item->attributes);
+            $item->styles->margin = explode(',', $item->styles->margin);
         }else{
             $item = $this->template_m->get_new();
-        }
-        
-        if ($item->content){
-            $content = json_decode($item->content);
-            foreach ($content as $key => $val){
-                $item->$key = $val;
-            }
+            $item->available = 0;
+            
+            $styles = new stdClass();
+            $styles->page = 'Folio';
+            $styles->margin = array(20,20);
+            $styles->orientation = 'P';
+            $styles->font_name = 'Arial';
+            
+            $item->styles = $styles;
         }
         
         $this->data['item'] = $item;
         
         //get supported data
-        $template = MailTemplate::getInstance();
-        $this->data['autotexts'] = $template->get_autotexts();
+        $this->data['styles']['page'] = array('A4'=>'A4','Letter'=>'Letter','Legal'=>'Legal','Folio'=>'Folio');
+        $this->data['styles']['unit'] = array('cm'=>'Centimeters','mm'=>'Milimeters');
+        $this->data['styles']['orientation'] = array('P'=>'Portrait', 'L'=>'Landscape');
+        $this->data['styles']['font_name'] = array('Arial'=>'Arial', 'Times'=>'Times Roman','Tahoma'=>'Tahoma');
         
         //set breadcumb
         breadcumb_add($this->data['breadcumb'], 'Templates', site_url('template'), TRUE);
@@ -110,16 +108,31 @@ class Template extends MY_AdminController {
         $this->form_validation->set_rules($rules);
         //exit(print_r($rules));
         if ($this->form_validation->run() != FALSE) {
-            $postdata = $this->sys_variables_m->array_from_post(array('var_name','var_type','var_value','is_list','func_custom_value'));
+            $postdata = $this->template_m->array_from_post(array('name','available'));
+            $postdata['name'] = url_title($postdata['name'], '_', TRUE);
             
-            if (($this->sys_variables_m->save($postdata, $id))){
+            $attributes = new stdClass();
+            foreach ($this->input->post() as $key => $value){
+                if (strpos($key, 'style')===FALSE){ continue; }
+                else if (strpos($key, 'margin')!==FALSE){
+                    $attributes->margin = implode(',',$value);
+                }else{
+                    $key_attribute = str_replace('style_', '', $key);
+                    $attributes->$key_attribute = $value;
+                }
+            }
+            
+            $postdata['attributes'] = json_encode($attributes);
+            //print_r($attributes);exit;
+            
+            if (($this->template_m->save($postdata, $id))){
                 $this->session->set_flashdata('message_type','success');
-                $this->session->set_flashdata('message', 'Data configuration saved successfully');
+                $this->session->set_flashdata('message', 'Data template saved successfully');
                 
-                redirect('sysconf/index?page='.$page);
+                redirect('template/index?page='.$page);
             }else{
                 $this->session->set_flashdata('message_type','error');
-                $this->session->set_flashdata('message', $this->sys_variables_m->get_last_message());
+                $this->session->set_flashdata('message', $this->template_m->get_last_message());
             }
         }
         
@@ -128,7 +141,58 @@ class Template extends MY_AdminController {
             $this->session->set_flashdata('message', validation_errors());
         }
         
-        redirect('sysconf/edit?id='.$id.'&page='.$page);
+        redirect('template/edit?id='.$id.'&page='.$page);
+    }
+    
+    function _unique_template_name(){
+        $id = $this->input->get('id', TRUE);
+        $name = url_title($this->input->post('name'), '_', TRUE);
+        
+        $where = array('name'=>$name);
+        if ($id){
+            $where['id !='] = $id;
+        }
+        if ($this->template_m->get_count($where)>0){
+            $this->form_validation->set_message('_unique_template_name', 'Duplicate template name "'.$name.'"');
+            return FALSE;
+        }else{
+            return TRUE;
+        }
+        
+    }
+    
+    function preview($key='biasa'){
+        $pdf = new PDFTemplate();
+        
+        //get template
+        //$template = $pdf->get_template($key);
+        if (intval($key)){ $key = intval($key); }
+        $pdf->makepdf($key);
+    }
+    function printpdf($name='biasa', $mail_id=NULL){
+        $pdf = new PDFTemplate();
+        $key ='surat_'.$name;
+        //$dictionary = array('nama_pengirim'=>'Marwan Saleh','pangkat_pengirim'=>'Ka Badan','nip_pengirim'=>'21000234500099');
+        $data = array(
+            //'autotext' => $mt->get_autotexts(),
+            //'dictionary' => $dictionary,
+            'content'=>'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vehicula malesuada turpis. Integer aliquet justo in nibh vulputate rutrum sed nec nulla. In at risus sollicitudin, sollicitudin risus eu, placerat massa. Praesent congue rutrum ligula. Duis ac vehicula velit. Maecenas lobortis posuere eleifend. Donec eu tincidunt nulla.<br>In elementum ante urna, vel malesuada lorem blandit in. Phasellus laoreet viverra leo, id tincidunt leo faucibus non. Curabitur ac aliquam sapien. Nunc congue consequat diam, quis facilisis sem interdum sit amet. Suspendisse efficitur tellus eget nunc vestibulum accumsan.<br>Sed tempus nulla arcu, eu auctor dolor imperdiet quis. Integer vel placerat tortor. Curabitur vitae risus eu dolor mollis faucibus. Sed et tortor diam.',
+            'tembusan' => array('Seketaris Daerah', 'Ketua Ikatan Penyandang Cacat')
+        );
+        $pdf->makepdf($key, $data);
+    }
+    
+    function register_auto($name,$title=NULL,$content=NULL,$callback=NULL,$editable=1){
+        $mt = Autotexts::getInstance();
+        if (!$title){
+            $title = ucfirst($name);
+        }
+        var_dump($mt->autotext_register($name,$title,$content,$callback,$editable,$callback?FALSE:TRUE));
+    }
+    
+    function unregister_auto($name){
+        $mt = Autotexts::getInstance();
+        var_dump($mt->autotext_unreg($name));
     }
     
     function delete(){
@@ -158,8 +222,6 @@ class Template extends MY_AdminController {
         
         redirect('sysconf/index?page='.$page);
     }
-    
-    
 }
 
 /*
