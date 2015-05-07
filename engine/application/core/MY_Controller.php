@@ -38,21 +38,23 @@ class MY_BaseController extends CI_Controller {
         //check if cookie for this visitor exists, if not create one
         
         if (!get_cookie($this->_cookie_visitor)){
+            $unique_value = md5(time() . $this->input->ip_address());
             $cookie = array(
                 'name'   => $this->_cookie_visitor,
-                'value'  => md5(time() . $this->input->ip_address()),
+                'value'  => $unique_value,
                 'expire' => strtotime('December 31 2020')
             );
             set_cookie($cookie);
             
             //register new user
-            $this->_visitor_register();
+            $this->_visitor_register($unique_value);
         }
     }
     
-    protected function _visitor_register(){
+    protected function _visitor_register($unique_value){
+        
         $this->db->insert('unique_visitors', array(
-            'visitor_id'    => $this->_get_unique_visitor(),
+            'visitor_id'    => $unique_value,
             'date'          => time(),
             'ip_address'    => $this->input->ip_address()
         ));
