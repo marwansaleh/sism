@@ -14,6 +14,6 @@ class Logo {
         }
         
         
-        $autoText->content = $img_src ;//$ci->load->view('logo', array('logo_data'=>$img_src),TRUE);
+        $autoText->content = $img_src ;
     }
 }
