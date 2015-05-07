@@ -12,33 +12,61 @@
             </div><!-- /.box-header -->
             
             <div class="box-body">
+                <div class="form-group">
+                    <label>Template Name</label>
+                    <input type="text" name="name" class="form-control" placeholder="Template name ..." value="<?php echo $item->name; ?>">
+                </div>
+                <div class="form-group">
+                    <label>Available to Users</label>
+                    <select class="form-control" name="available">
+                        <option value="1" <?php echo $item->available==1?'selected':''; ?>>Available</option>
+                        <option value="0" <?php echo $item->available==0?'selected':''; ?>>Not Available</option>
+                    </select>
+                </div>
+                <legend>Print Attributes</legend>
                 <div class="row">
-                    <div class="col-sm-10" style="border-right: solid 3px grey">
+                    <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Template Name</label>
-                            <input type="text" name="name" class="form-control" placeholder="Template name ..." value="<?php echo $item->name; ?>">
-                        </div>
-                        <div class="form-group">
-                            <label>Template Header</label>
-                            <textarea name="header" class="form-control editor" placeholder="Template header ..." ><?php echo isset($item->header)?$item->header:''; ?></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Template Body</label>
-                            <textarea name="body" class="form-control editor" placeholder="Template body ..." ><?php echo isset($item->body)?$item->body:''; ?></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Template Header</label>
-                            <textarea name="footer" class="form-control editor" placeholder="Template footer ..." ><?php echo isset($item->footer)?$item->footer:''; ?></textarea>
+                            <label>Page Size</label>
+                            <select class="form-control" name="style_page">
+                                <?php foreach ($styles['page'] as $key=>$value): ?>
+                                <option value="<?php echo $key; ?>" <?php echo $key==$item->styles->page?'selected':''; ?>><?php echo $value; ?></option>
+                                <?php endforeach; ?>
+                            </select>
                         </div>
                     </div>
-                    <div class="col-sm-2">
-                        <label>Select Autotext</label>
-                        <div class="list-group autotext-list">
-                            <?php foreach ($autotexts as $autotext): ?>
-                            <a href="javascript:void();" class="list-group-item" data-toggle="tooltip" title="<?php echo $autotext->title; ?>" data-text="<?php echo $autotext->code; ?>"><?php echo $autotext->name; ?></a>
-                            <?php endforeach; ?>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Page Orientation</label>
+                            <select class="form-control" name="style_orientation">
+                                <?php foreach ($styles['orientation'] as $key=>$value): ?>
+                                <option value="<?php echo $key; ?>" <?php echo $key==$item->styles->orientation?'selected':''; ?>><?php echo $value; ?></option>
+                                <?php endforeach; ?>
+                            </select>
                         </div>
                     </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Margin Left</label>
+                            <input type="number" class="form-control" name="style_margin[]" step="1" value="<?php echo $item->styles->margin[0]; ?>">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Margin Top</label>
+                            <input type="number" class="form-control" name="style_margin[]" step="1" value="<?php echo $item->styles->margin[1]; ?>">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Font Family</label>
+                    <select class="form-control" name="style_font_name">
+                        <?php foreach ($styles['font_name'] as $key=>$value): ?>
+                        <option value="<?php echo $key; ?>" <?php echo $key==$item->styles->font_name?'selected':''; ?>><?php echo $value; ?></option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
             </div>
             <div class="box-footer clearfix">
@@ -50,59 +78,3 @@
         </form>
     </div>
 </div>
-
-<script type="text/javascript">
-    var templateManager = {
-        activeEditor: null,
-        initEditor: function (){
-            var _this = this;
-            $('.editor').wysihtml5({
-                "font-styles"   : true,
-                "emphasis"      : true,
-                "lists"         : true,
-                "link"          : false,
-                "image"         : false,
-                "color"         : false,
-                "events"        : {
-                    "focus:composer"     : function (){
-                        _this.activeEditor = this;
-                    }
-                }
-            });
-        },
-        getActiveEditor: function (){
-            if (this.activeEditor){
-                return this.activeEditor;
-            }else{
-                return $('.editor').eq(0).data('wysihtml5').editor;
-            }
-        },
-        insertAutoText: function (ref){
-            var _this = this;
-            //get autotext code from selected option
-            var code = $(ref).attr('data-text');
-            if (!code){ return; }
-            
-            //get active editor
-            var editor = _this.getActiveEditor();
-            
-            //check against the object
-            if (editor){
-                editor.composer.commands.exec("insertHTML",code);
-            }else{
-                alert('Can not find an editor / composer');
-            }
-            
-            return;
-        }
-    };
-    
-    $(document).ready(function(){
-        templateManager.initEditor();
-        
-        $('.autotext-list').on('click', 'a',function(){
-            templateManager.insertAutoText($(this));
-            return false;
-        });
-    });
-</script>
