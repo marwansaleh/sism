@@ -23,6 +23,7 @@
         <link href="<?php echo site_url(config_item('path_lib').'ionicons/css/ionicons.min.css'); ?>" rel="stylesheet">
         <link href="<?php echo site_url(config_item('path_lib').'bootstrap-fileinput/css/fileinput.min.css'); ?>" rel="stylesheet">
         <link href="<?php echo site_url(config_item('path_lib').'bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css'); ?>" rel="stylesheet">
+        <link href="<?php echo site_url(config_item('path_lib').'bootstrap-wysihtml5/bootstrap3-wysihtml5-editor.min.css'); ?>" rel="stylesheet">
         <link href="<?php echo site_url(config_item('path_lib').'hidetext/hidetext.css'); ?>" rel="stylesheet">
         <!-- Custom styles -->
         <link href="<?php echo site_url(config_item('path_assets').'css/AdminLTE.min.css'); ?>" rel="stylesheet">
