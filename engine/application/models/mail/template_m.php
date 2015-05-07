@@ -6,7 +6,7 @@
  * @author Marwan Saleh <marwan.saleh@ymail.com>
  */
 class Template_m extends MY_Model {
-    protected $_table_name = 'mail_template';
+    protected $_table_name = 'mail_templates';
     protected $_primary_key = 'id';
     protected $_primary_filter = 'intval';
     protected $_order_by = 'name asc';
@@ -15,22 +15,7 @@ class Template_m extends MY_Model {
         'name' => array(
             'field' => 'name', 
             'label' => 'Template name', 
-            'rules' => 'trim|required|xss_clean|callback__unique_template_name["name"]'
-        ),
-        'header' => array(
-            'field' => 'header', 
-            'label' => 'Header', 
-            'rules' => 'trim|xss_clean'
-        ),
-        'body' => array(
-            'field' => 'body', 
-            'label' => 'Body', 
-            'rules' => 'trim|xss_clean'
-        ),
-        'footer' => array(
-            'field' => 'footer', 
-            'label' => 'Footer', 
-            'rules' => 'trim|xss_clean'
+            'rules' => 'trim|required|xss_clean|callback__unique_template_name'
         )
     );
 }
