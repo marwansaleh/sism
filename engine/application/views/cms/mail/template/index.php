@@ -38,7 +38,7 @@
                             <td class="text-center">
                                 <a class="btn btn-xs btn-warning" data-toggle="tooltip" title="Edit" href="<?php echo site_url('template/edit?id='.$item->id.'&page='.$page); ?>"><i class="fa fa-pencil-square"></i></a>
                                 <a class="btn btn-xs btn-danger confirmation" data-toggle="tooltip" title="Delete" data-confirmation="Are your sure to delete this record ?" href="<?php echo site_url('template/delete?id='.$item->id.'&page='.$page); ?>"><i class="fa fa-minus-square"></i></a>
-                                <a class="btn btn-xs btn-info" data-toggle="tooltip" title="Preview" href="<?php echo site_url('template/preview?id='.$item->id.'&page='.$page); ?>"><i class="fa fa-eye"></i></a>
+                                <a class="btn btn-xs btn-info" data-toggle="tooltip" title="Preview" target="_blank" href="<?php echo site_url('template/preview/'.$item->id); ?>"><i class="fa fa-eye"></i></a>
                             </td>
                         </tr>
                         <?php endforeach; ?>
