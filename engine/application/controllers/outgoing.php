@@ -67,6 +67,13 @@ class Outgoing extends MY_AdminController {
         }
         $this->data['pagination_description'] = smart_paging_description($this->data['totalRecords'], count($this->data['items']));
         
+        //get templates
+        $this->load->model('mail/template_m');
+        $this->data['templates'] = array();
+        foreach ($this->template_m->get() as $tmp){
+            $tmp->label = ucfirst(str_replace('_', ' ', $tmp->name));
+            $this->data['templates'] [] = $tmp;
+        }
         //set breadcumb
         breadcumb_add($this->data['breadcumb'], 'Outgoing', site_url('outgoing'), TRUE);
         
@@ -114,6 +121,7 @@ class Outgoing extends MY_AdminController {
         $this->data['users'] = $this->user_m->get_select_where('id,full_name,position',array('id !='=> $me->id),FALSE);
         $this->data['priorities'] = mail_priority();
         $this->data['incomings'] = $this->incoming_m->get_select_where('id,subject',NULL);
+        
         
         //set breadcumb
         breadcumb_add($this->data['breadcumb'], 'Outgoing', site_url('outgoing'));
