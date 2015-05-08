@@ -11,7 +11,14 @@
                         <input type="text" name="table_search" class="form-control input-sm pull-right" style="width: 250px;" placeholder="Search">
                         <div class="input-group-btn">
                             <button type="submit" class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
-                            <a class="btn btn-sm btn-primary" data-toggle="tooltip" title="Create" href="<?php echo site_url('outgoing/edit'); ?>"><i class="fa fa-plus-square"></i></a>
+                            <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" title="Create" aria-expanded="false">
+                                <i class="fa fa-plus-square"></i> <span class="caret"></span></button>
+                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                <?php foreach ($templates as $tmp): ?>
+                                <li><a href="<?php echo site_url('outgoing/edit/'.$tmp->id); ?>"><?php echo $tmp->label; ?></a></li>
+                                <?php endforeach; ?>
+                            </ul>
+                            
                         </div>
                     </div>
                 </div>
