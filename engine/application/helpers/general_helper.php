@@ -456,10 +456,11 @@ if (!function_exists('mail_status')){
 if (!function_exists('mail_priority')){
     function mail_priority($priority=NULL){
         $priority_array = array(
-            MAIL_PRIORITY_NORMAL        => 'Normal',
+            MAIL_PRIORITY_NORMAL        => 'Biasa',
+            MAIL_PRIORITY_CONFIDENTIAL  => 'Konfidensial',
             MAIL_PRIORITY_IMPORTANT     => 'Important',
-            MAIL_PRIORITY_VIMPORTANT    => 'Very Important',
-            MAIL_PRIORITY_CONFIDENTIAL  => 'Confidential'
+            MAIL_PRIORITY_SECURE        => 'Rahasia',
+            MAIL_PRIORITY_EXT_SECURE    => 'Sangat Rahasia'
         );
         
         if (is_null($priority)){
