@@ -40,10 +40,12 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 define('MAIL_TYPE_INCOMING' , 'incoming');
 define('MAIL_TYPE_OUTGOING' , 'outgoing');
 
-define('MAIL_PRIORITY_NORMAL', 'normal');
-define('MAIL_PRIORITY_IMPORTANT', 'important');
-define('MAIL_PRIORITY_VIMPORTANT', 'very_important');
-define('MAIL_PRIORITY_CONFIDENTIAL', 'confidential');
+define('MAIL_PRIORITY_NORMAL', 'biasa');
+define('MAIL_PRIORITY_CONFIDENTIAL', 'konfidensial');
+define('MAIL_PRIORITY_IMPORTANT', 'penting');
+define('MAIL_PRIORITY_SECURE', 'rahasia');
+DEFINE('MAIL_PRIORITY_EXT_SECURE', 'sangat_rahasia');
+
 
 /* BOOTH SIDE */
 define('MAIL_STATUS_NEW', 0);
