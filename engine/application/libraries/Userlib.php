@@ -459,6 +459,10 @@ class Userlib extends Library {
         $this->_update_session();
     }
     
+    public function get_user_record($userid){
+        return $this->ci->user_m->get($userid);
+    }
+    
     /**
      * Update loggedin user session in database
      */
