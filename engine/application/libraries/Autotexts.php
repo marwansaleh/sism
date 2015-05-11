@@ -26,6 +26,14 @@ class Autotexts extends Library {
         return self::$instance;
     }
     
+    public function get_dictionary_cache(){
+        return $this->_dictionary;
+    }
+    
+    public function get_autotexts_cache(){
+        return $this->_autotexts;
+    }
+    
     /**
      * Parse autotext to get the real value
      * @param string $autotext
@@ -62,6 +70,18 @@ class Autotexts extends Library {
      */
     public function add_dictionary($array){
         foreach ($array as $key=> $value){
+            if (!isset($this->_dictionary[$key])){
+                $this->_dictionary[$key] = $value;
+            }
+        }
+    }
+    
+    /**
+     * Add dictionary items
+     * @param stdClass $stdClass
+     */
+    public function add_dictionary_obj($stdClass){
+        foreach (get_object_vars($stdClass) as $key=>$value){
             if (!isset($this->_dictionary[$key])){
                 $this->_dictionary[$key] = $value;
             }
