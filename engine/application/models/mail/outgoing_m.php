@@ -15,11 +15,11 @@ class Outgoing_m extends MY_Model {
         'subject' => array(
             'field' => 'subject', 
             'label' => 'Subjek', 
-            'rules' => 'trim|required|xss_clean'
+            'rules' => 'trim|xss_clean'
         ),
-        'receiver' => array(
-            'field' => 'receiver', 
-            'label' => 'Penerima', 
+        'signer' => array(
+            'field' => 'signer', 
+            'label' => 'Signer', 
             'rules' => 'trim|numeric|required|xss_clean'
         ),
         'sender' => array(
@@ -30,11 +30,6 @@ class Outgoing_m extends MY_Model {
         'mail_date' => array(
             'field' => 'mail_date', 
             'label' => 'Tanggal', 
-            'rules' => 'trim|xss_clean'
-        ),
-        'mail_no' => array(
-            'field' => 'mail_no', 
-            'label' => 'No. surat', 
             'rules' => 'trim|xss_clean'
         ),
         'content' => array(
