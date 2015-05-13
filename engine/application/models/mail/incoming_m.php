@@ -43,7 +43,9 @@ class Incoming_m extends MY_Model {
     public function save($data, $id = NULL) {
         //save to sender_name
         if (isset($data['sender_name']) && $data['sender_name']){
-            $this->db->insert('sender_name', array('sender_name'=>$data['sender_name']));
+            if (!$this->db->where('sender_name',$data['sender_name'])->get('sender_name')->result()){
+                $this->db->insert('sender_name', array('sender_name'=>$data['sender_name']));
+            }
         }
         return parent::save($data, $id);
     }
