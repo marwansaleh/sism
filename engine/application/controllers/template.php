@@ -165,8 +165,6 @@ class Template extends MY_AdminController {
         $pdf = new PDFTemplate();
         
         //get template
-        //$template = $pdf->get_template($key);
-        if (intval($key)){ $key = intval($key); }
         $pdf->makepdf($key);
     }
     function printpdf($name='biasa', $mail_id=NULL){
