@@ -11,12 +11,15 @@ class History extends MY_AdminController {
         $this->load->model('mail/incoming_m', 'incoming_m');
         $this->load->model('mail/outgoing_m', 'outgoing_m');
         $this->load->model('mail/disposition_m', 'disposition_m');
+        $this->load->model('mail/attachment_m', 'attachment_m');
     }
     
     
     function index($mail_id, $mail_type=MAIL_TYPE_INCOMING){
         //get mail record
-        $this->data['histories'] = $this->_get_all_histories($mail_id, $mail_type);
+        $all_histories = $this->_get_all_histories($mail_id, $mail_type);
+        $this->data['histories'] = $all_histories['histories'];
+        $this->data['attachments'] = $all_histories['attachments'];
         
         //$this->data['body_class'] = 'bg-blue';
         $this->data['subview'] = 'cms/mail/history/index';
@@ -25,6 +28,7 @@ class History extends MY_AdminController {
     
     private function _get_all_histories($mail_id, $mail_type=MAIL_TYPE_INCOMING){
         $histories = array();
+        $attachments = NULL;
         
         if ($mail_type==MAIL_TYPE_INCOMING){
             $mail = $this->incoming_m->get($mail_id);
@@ -58,9 +62,15 @@ class History extends MY_AdminController {
                     $histories = array_merge($histories, $out_childs);
                 }
             }
+            
+            //get attachment if any
+            $attachments = $this->attachment_m->get_by(array('mail_id'=>$mail_id, 'mail_type'=>$mail_type));
+            
         }
         
-        return $histories;
+        $result = array('histories'=>$histories, 'attachments'=>$attachments);
+        
+        return $result;
     }
     
     private function _get_parent_history($mail_id, $mail_type=MAIL_TYPE_INCOMING){
@@ -79,7 +89,7 @@ class History extends MY_AdminController {
         $parent->sender = isset($mail->sender)?$mail->sender:0;
         $parent->sender_name = $parent->sender ? $this->user_m->get_value('full_name', array('id'=>$parent->sender)) : $mail->sender_name;
         $parent->receiver = $mail->receiver;
-        $parent->receiver_name = $this->user_m->get_value('full_name', array('id'=>$mail->receiver));
+        $parent->receiver_name = $mail->receiver >0? $this->user_m->get_value('full_name', array('id'=>$mail->receiver)):(isset($mail->literally_receiver)?$mail->literally_receiver:'');
         $parent->status = $mail->status;
         $parent->status_name = mail_status($mail->status, $mail_type, $mail_type==MAIL_TYPE_INCOMING?SIDE_RECEIVER:SIDE_SENDER);
         $parent->notes = $mail->content ? strip_tags($mail->content,"<p>"):$mail->subject;
