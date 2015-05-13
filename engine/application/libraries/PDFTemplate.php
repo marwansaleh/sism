@@ -53,8 +53,8 @@ class PDFTemplate extends FPDF {
         
         //get from db
         $this->ci->db->select('*');
-        if (is_int($key)){
-            $this->ci->db->where('id', $key);
+        if (intval($key)){
+            $this->ci->db->where('id', intval($key));
         }else{
             $this->ci->db->where('name', $key);
         }
@@ -90,11 +90,25 @@ class PDFTemplate extends FPDF {
         if (!$template){
             exit('No template defined');
         }
+        
+        //echo 'dictionary:';
+        /*if (!$this->AUTOTXT){
+            $this->AUTOTXT = Autotexts::getInstance();
+        }
+        print_r($this->AUTOTXT->get_dictionary_cache());exit;*/
         $method_name = $template->name;
         if (method_exists($this, $method_name)){
             $this->$method_name($data, $template->styles, $file_name);
             exit;
         }
+    }
+    
+    public function add_dictionary_obj($stdClass){
+        if (!$this->AUTOTXT){
+            $this->AUTOTXT = Autotexts::getInstance();
+        }
+        
+        $this->AUTOTXT->add_dictionary_obj($stdClass);
     }
     
     protected function surat_biasa($data, $style=NULL, $file_name=NULL){
@@ -126,33 +140,52 @@ class PDFTemplate extends FPDF {
         $this->Cell($half_page);
         $this->Cell($half_page,self::LN_SINGLE, 'di '.$this->_parse_autotext('{kepada_yth_di}'),0,1);
         
-        $this->_insert_table(array(
-            array(
-                array('width'=>20,'value'=>'Nomor'),
-                array('width'=>$half_page-20,'value'=>': '.$this->_parse_autotext('{nomor_surat}')),
-            ),
-            array(
-                array('width'=>20,'value'=>'Sifat'),
-                array('width'=>$half_page-20,'value'=>': '.$this->_parse_autotext('{sifat_surat}')),
-            ),
-            array(
-                array('width'=>20,'value'=>'Lampiran'),
-                array('width'=>$half_page-20,'value'=>': '.$this->_parse_autotext('{lampiran_surat}')),
-            ),
-            array(
-                array('width'=>20,'value'=>'Hal'),
-                array('width'=>$half_page-20,'value'=>': '.$this->_parse_autotext('{subjek_surat}')),
-            ),
-        ));
+        $header_array = array();
+        
+        //add nomor surat
+        $header_label = 20;
+        $header_colon = 5;
+        $header_value = $this->_page_content_width-$header_label-$header_colon;
+        $header_array [] = array(
+                array('width'=>$header_label,'value'=>'Nomor'),
+                array('width'=>$header_colon,'value'=>':'),
+                array('width'=>$header_value,'value'=>$this->_parse_autotext('{nomor_surat}')),
+        );
+        //add sifat surat
+        $header_array [] = array(
+                array('width'=>$header_label,'value'=>'Sifat'),
+                array('width'=>$header_colon,'value'=>':'),
+                array('width'=>$header_value,'value'=>$this->_parse_autotext('{sifat_surat}')),
+        );
+        
+        $lampiran = $this->_parse_autotext('{lampiran}');
+        if ($lampiran && is_array($lampiran)){
+            foreach ($lampiran as $index => $value){
+                $header_array [] = array(
+                    array('width'=>$header_label,'value'=>($index==0 ? 'Lampiran':'')),
+                    array('width'=>$header_colon,'value'=>($index==0 ? ':':'')),
+                    array('width'=>$header_value,'value'=>$value),
+                );
+            }
+        }
+            
+        $header_array [] = array(
+                array('width'=>$header_label,'value'=>'Hal'),
+                array('width'=>$header_colon,'value'=>':'),
+                array('width'=>$header_value,'value' => $this->_parse_autotext('{subjek_surat}'),'multi'=>1),
+        );
+        
+        
+        
+        $this->_insert_table($header_array);
         
         $this->Ln(self::LN_HALF);
         if (isset($data['content'])){
-            $content = explode('<br>', $data['content']);
+            $content = preg_split('/\n|\r/', $data['content'], -1, PREG_SPLIT_NO_EMPTY);
             foreach ($content as $line_text){
                 $this->Write(self::LN_SINGLE, $line_text);
                 $this->Ln(self::LN_HALF);
             }
-            
         }
         
         //draw footer
@@ -294,8 +327,11 @@ class PDFTemplate extends FPDF {
         
         $this->Ln(self::LN_HALF);
         $this->Cell($this->_page_content_width, self::LN_SINGLE, 'Tembusan:',0,1);
-        if (isset($data['tembusan'])){
-            foreach ($data['tembusan'] as $index => $tembusan){
+        
+        //get tembusan must in array
+        $tembusan = $this->_parse_autotext('{tembusan}');
+        if ($tembusan && is_array($tembusan)){
+            foreach ($tembusan as $index => $tembusan){
                 $this->Cell($this->_page_content_width, self::LN_SINGLE, ($index+1) . '. ' . $tembusan,0,1);
             }
         }else{
@@ -320,7 +356,11 @@ class PDFTemplate extends FPDF {
                 $this->Cell($indent);
             }
             foreach ($data[$i] as $col){
-                $this->Cell(isset($col['width'])?$col['width']:60, isset($col['height'])?$col['height']:self::LN_SINGLE, $col['value'], $border, 0, isset($col['align'])?$col['align']:'L');
+                if (isset ($col['multi']) && $col['multi']==1){
+                    $this->MultiCell(isset($col['width'])?$col['width']:60, isset($col['height'])?$col['height']:self::LN_SINGLE, $col['value'], isset($col['border'])&&$col['border']==1?1:$border, isset($col['align'])?$col['align']:'L');
+                }else{
+                    $this->Cell(isset($col['width'])?$col['width']:60, isset($col['height'])?$col['height']:self::LN_SINGLE, $col['value'], isset($col['border'])&&$col['border']==1?1:$border, 0, isset($col['align'])?$col['align']:'L');
+                }
             }
             $this->Ln();
         }
