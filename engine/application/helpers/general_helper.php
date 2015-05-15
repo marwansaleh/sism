@@ -478,9 +478,10 @@ if (!function_exists('mail_priority_bg')){
     function mail_priority_bg($priority=MAIL_PRIORITY_NORMAL){
         $array = array(
             MAIL_PRIORITY_NORMAL        => 'bg-default',
-            MAIL_PRIORITY_IMPORTANT     => 'bg-lime',
-            MAIL_PRIORITY_VIMPORTANT    => 'bg-important',
-            MAIL_PRIORITY_CONFIDENTIAL  => 'bg-danger'
+            MAIL_PRIORITY_IMPORTANT     => 'bg-important',
+            MAIL_PRIORITY_CONFIDENTIAL  => 'bg-danger',
+            MAIL_PRIORITY_SECURE        => 'bg-success',
+            MAIL_PRIORITY_EXT_SECURE    => 'bg-primary'
         );
         
         if (isset($array[$priority])){
