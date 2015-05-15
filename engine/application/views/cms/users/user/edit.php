@@ -50,6 +50,34 @@
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Jabatan</label>
+                                    <input type="text" name="jabatan" class="form-control" value="<?php echo $item->jabatan; ?>">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Pangkat</label>
+                                    <input type="text" name="pangkat" class="form-control" value="<?php echo $item->pangkat; ?>">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Golongan</label>
+                                    <input type="text" name="golongan" class="form-control" value="<?php echo $item->golongan; ?>">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>NIP</label>
+                                    <input type="text" name="nip" class="form-control" value="<?php echo $item->nip; ?>">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label>Jenis Kelamin</label>
@@ -79,26 +107,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label>Jabatan</label>
-                                    <input type="text" name="jabatan" class="form-control" value="<?php echo $item->jabatan; ?>">
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label>Pangkat / golongan</label>
-                                    <input type="text" name="pangkat" class="form-control" value="<?php echo $item->pangkat; ?>">
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label>NIP</label>
-                                    <input type="text" name="nip" class="form-control" value="<?php echo $item->nip; ?>">
-                                </div>
-                            </div>
-                        </div>
+                        
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="form-group">
