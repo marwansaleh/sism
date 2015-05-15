@@ -50,7 +50,16 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-5">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Jenis Kelamin</label>
+                                    <select name="sex" class="form-control">
+                                        <option value="P" <?php echo $item->sex=='P'?'selected':''; ?>>Perempuan</option>
+                                        <option value="L" <?php echo $item->sex=='L'?'selected':''; ?>>Laki-laki</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
                                 <div class="form-group">
                                     <label>Group User</label>
                                     <select name="group_id" class="form-control selectpicker" data-live-search="true" data-size="5">
@@ -60,19 +69,33 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-5">
-                                <div class="form-group">
-                                    <label>Position</label>
-                                    <input type="text" name="position" class="form-control" value="<?php echo $item->position; ?>">
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
+                            <div class="col-sm-4">
                                 <div class="form-group">
                                     <label>Type User</label>
                                     <select name="type" class="form-control">
                                         <option value="0" <?php echo $item->type==0?'selected':''; ?>>Internal</option>
                                         <option value="1" <?php echo $item->type==1?'selected':''; ?>>Eksternal</option>
                                     </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Jabatan</label>
+                                    <input type="text" name="jabatan" class="form-control" value="<?php echo $item->jabatan; ?>">
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Pangkat / golongan</label>
+                                    <input type="text" name="pangkat" class="form-control" value="<?php echo $item->pangkat; ?>">
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>NIP</label>
+                                    <input type="text" name="nip" class="form-control" value="<?php echo $item->nip; ?>">
                                 </div>
                             </div>
                         </div>
