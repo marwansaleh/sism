@@ -3,7 +3,7 @@
     <input type="text" class="form-control" name="sk_nama_rekomendasi" value="<?php echo isset($item->elements->nama_rekomendasi)?$item->elements->nama_rekomendasi:''; ?>">
 </div>
 <div class="row">
-    <div class="col-sm-9">
+    <div class="col-sm-6">
         <div class="form-group">
             <label>Jabatan Penerima Rekomendasi</label>
             <input type="text" class="form-control" name="sk_jabatan_rekomendasi" value="<?php echo isset($item->elements->jabatan_rekomendasi)?$item->elements->jabatan_rekomendasi:''; ?>">
@@ -11,22 +11,14 @@
     </div>
     <div class="col-sm-3">
         <div class="form-group">
-            <label>NIP Penerima Rekomendasi</label>
-            <input type="text" class="form-control" name="sk_nip_rekomendasi" value="<?php echo isset($item->elements->nip_rekomendasi)?$item->elements->nip_rekomendasi:''; ?>">
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-sm-9">
-        <div class="form-group">
-            <label>Pangkat Penerima Rekomendasi</label>
+            <label>Pangkat / Golongan</label>
             <input type="text" class="form-control" name="sk_pangkat_rekomendasi" value="<?php echo isset($item->elements->pangkat_rekomendasi)?$item->elements->pangkat_rekomendasi:''; ?>">
         </div>
     </div>
     <div class="col-sm-3">
         <div class="form-group">
-            <label>Golongan Penerima Rekomendasi</label>
-            <input type="text" class="form-control" name="sk_golongan_rekomendasi" value="<?php echo isset($item->elements->golongan_rekomendasi)?$item->elements->golongan_rekomendasi:''; ?>">
+            <label>NIP</label>
+            <input type="text" class="form-control" name="sk_nip_rekomendasi" value="<?php echo isset($item->elements->nip_rekomendasi)?$item->elements->nip_rekomendasi:''; ?>">
         </div>
     </div>
 </div>
