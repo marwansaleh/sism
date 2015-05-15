@@ -9,6 +9,7 @@
             <input type="hidden" name="sender" value="<?php echo $item->sender; ?>">
             <input type="hidden" name="template_id" value="<?php echo $template->id; ?>">
             <input type="hidden" name="template_name" value="<?php echo $template->name; ?>">
+            <input type="hidden" id="literally-receiver" name="literally_receiver" value="<?php echo $item->literally_receiver; ?>">
             <div class="box">
             <div class="box-header">
                 <h3 class="box-title"><?php echo $item->id?'Update Data':'Create New'; ?></h3>
@@ -69,15 +70,15 @@
                     <div class="row">
                         <div class="col-sm-4">
                             <label>Nama Pejabat</label>
-                            <input type="text" class="form-control" name="nama_pengirim" value="<?php echo isset($items->elements->nama_pengirim)?$items->elements->nama_pengirim:''; ?>">
+                            <input type="text" class="form-control" name="nama_pengirim" value="<?php echo isset($item->elements->nama_pengirim)?$item->elements->nama_pengirim:''; ?>">
                         </div>
                         <div class="col-sm-4">
                             <label>Pangkat Pejabat</label>
-                            <input type="text" class="form-control" name="pangkat_pengirim" value="<?php echo isset($items->elements->pangkat_pengirim)?$items->elements->pangkat_pengirim:''; ?>">
+                            <input type="text" class="form-control" name="pangkat_pengirim" value="<?php echo isset($item->elements->pangkat_pengirim)?$item->elements->pangkat_pengirim:''; ?>">
                         </div>
                         <div class="col-sm-4">
                             <label>NIP Pejabat</label>
-                            <input type="text" class="form-control" name="nip_pengirim" value="<?php echo isset($items->elements->nip_pengirim)?$items->elements->nip_pengirim:''; ?>">
+                            <input type="text" class="form-control" name="nip_pengirim" value="<?php echo isset($item->elements->nip_pengirim)?$item->elements->nip_pengirim:''; ?>">
                         </div>
                     </div>
                 </div>

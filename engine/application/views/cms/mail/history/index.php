@@ -1,4 +1,10 @@
 <h3 style="margin-top: 0; padding-top: 0;">Subjek: <?php echo $mail->subject; ?></h3>
+<?php if (isset($attachments) && count($attachments)):?>
+Lihat attachments: 
+<?php foreach ($attachments as $att): ?>
+<a target="_blank" class="btn btn-default btn-sm" href="<?php echo site_url('history/attachment?q='.  base64_encode(config_item('attachments').$att->file_name)); ?>"><?php echo $att->file_name; ?></a>
+<?php endforeach; ?>
+<?php endif; ?>
 <table role="table" class="table table-condensed table-hover">
     <thead>
         <tr>
