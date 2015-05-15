@@ -26,6 +26,25 @@ class History extends MY_AdminController {
         $this->load->view('_layout_admin_simple', $this->data);
     }
     
+    function attachment(){
+        $filename = base64_decode($this->input->get('q'));
+        if (file_exists($filename)){
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            $mime_type = finfo_file($finfo, $filename);
+            finfo_close($finfo);
+            //header('Content-Description: File Transfer');
+            header('Content-Type: '.$mime_type);
+            header('Content-Disposition: inline; filename='.basename($filename));
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($filename));
+            readfile($filename);
+            exit;
+        }
+        
+    }
+    
     private function _get_all_histories($mail_id, $mail_type=MAIL_TYPE_INCOMING){
         $histories = array();
         $attachments = NULL;

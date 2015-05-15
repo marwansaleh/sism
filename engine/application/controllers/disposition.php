@@ -67,7 +67,7 @@ class Disposition extends MY_AdminController {
                     if ($item->mail_type==MAIL_TYPE_OUTGOING && $item->receiver == $this->users->get_userid()){
                         if ($this->outgoing_m->get_value('status', array('id'=>$item->mail_id))==MAIL_STATUS_SIGN){
                             $item->can_sign = TRUE;
-                            $item->can_post = FALSE;
+                            $item->can_post = TRUE;
                         }
                     }
                     
