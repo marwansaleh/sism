@@ -75,7 +75,8 @@ class Users extends MY_AdminController {
         }
         
         $this->data['item'] = $item;
-        
+        $this->data['pangkat_array'] = array('Pembina TK.I', 'Pembina', 'Penata TK.I', 'Penata', 'Penata Muda TK.I', 'Penata Muda','Pengatur TK.I','Pengatur');
+        $this->data['golongan_array'] = array ('IV/b', 'IV/a', 'III/d', 'III/c', 'III/b', 'III/a', 'II/d', 'II/c', 'II/b', 'II/a');
         //data support
         $this->data['groups'] = $this->usergroup_m->get();
         
