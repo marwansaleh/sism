@@ -110,7 +110,7 @@ class Users extends MY_AdminController {
         $this->form_validation->set_rules($rules);
         //exit(print_r($rules));
         if ($this->form_validation->run() != FALSE) {
-            $postdata = $this->user_m->array_from_post(array('full_name','group_id','type','position','username','password','change_password','email','mobile','phone','avatar','about'));
+            $postdata = $this->user_m->array_from_post(array('full_name','sex','group_id','type','jabatan','pangkat','nip','username','password','change_password','email','mobile','phone','avatar','about'));
             if ((!$id && !$postdata['password']) || ($id && $postdata['change_password'] && !$postdata['password'])){
                 $this->session->set_flashdata('message_type','error');
                 $this->session->set_flashdata('message', 'Password can not blank');
