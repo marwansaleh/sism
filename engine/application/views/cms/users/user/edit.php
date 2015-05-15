@@ -59,7 +59,11 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label>Pangkat</label>
-                                    <input type="text" name="pangkat" class="form-control" value="<?php echo $item->pangkat; ?>">
+                                    <select name="pangkat" class="form-control">
+                                        <?php foreach ($pangkat_array as $pangkat): ?>
+                                        <option value="<?php echo $pangkat; ?>" <?php echo $item->pangkat==$pangkat?'selected':''; ?>><?php echo $pangkat; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -67,7 +71,11 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label>Golongan</label>
-                                    <input type="text" name="golongan" class="form-control" value="<?php echo $item->golongan; ?>">
+                                    <select name="golongan" class="form-control">
+                                        <?php foreach ($golongan_array as $golongan): ?>
+                                        <option value="<?php echo $golongan; ?>" <?php echo $item->golongan==$golongan?'selected':''; ?>><?php echo $golongan; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-sm-6">
