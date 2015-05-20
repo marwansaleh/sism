@@ -9,7 +9,7 @@ class Division_m extends MY_Model {
     protected $_table_name = 'division';
     protected $_primary_key = 'id';
     protected $_primary_filter = 'intval';
-    protected $_order_by = 'division';
+    protected $_order_by = 'sort desc, division';
     
 }
 
