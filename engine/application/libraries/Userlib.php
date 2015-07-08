@@ -484,6 +484,34 @@ class Userlib extends Library {
         return $this->ci->user_m->get($userid);
     }
     
+    public function get_user_info($userid){
+        $user = $this->ci->user_m->get($userid);
+        
+        //get group name
+        $user->group_name = $this->_get_group_name($user->group_id);
+        $user->division_name = $this->_get_division_name($user->division_id);
+        $user->avatar_url = $this->get_avatar_url($user->avatar);
+        $user->is_online = $this->is_online($user->session_id);
+        
+        //calculate how many mail 
+        if (!isset($this->ci->incoming_m)){
+            $this->ci->load->model('mail/incoming_m');
+        }
+        if (!isset($this->ci->disposition_m)){
+            $this->ci->load->model('mail/disposition_m');
+        }
+        if (!isset($this->ci->outgoing_m)){
+            $this->ci->load->model('mail/outgoing_m');
+        }
+        $user->mail_count = array(
+            "incoming"      => $this->ci->incoming_m->get_count(array('receiver'=>$userid)),
+            "disposition"   => $this->ci->disposition_m->get_count(array('sender'=>$userid)),
+            "outgoing"      => $this->ci->outgoing_m->get_count(array('sender'=>$userid))
+        );
+        
+        return $user;
+    }
+    
     /**
      * Update loggedin user session in database
      */
@@ -563,4 +591,13 @@ class Userlib extends Library {
         
         return $this->ci->usergroup_m->get_value('group_name', array('group_id'=>$group_id));
     }
+    
+    private function _get_division_name($division_id){
+        if (!isset($this->ci->division_m)){
+            $this->ci->load->model('users/division_m');
+        }
+        
+        return $this->ci->division_m->get_value('division', array('id'=>$division_id));
+    }
+    
 }
