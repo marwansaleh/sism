@@ -1,6 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class MY_BaseController extends CI_Controller {
+    const APP_NAME = "SISM";
+    const APP_NAME_LONG = "Sistem Informasi Surat Menyurat";
+    const APP_VER = 1.0;
+    const APP_YEAR = 2015;
+    
     private $_cookie_visitor = 'visitor';
     private $_log_file = 'mylogfile.log';
     
@@ -22,6 +27,40 @@ class MY_BaseController extends CI_Controller {
         $this->__initialisation();        
         
         $this->data['mobile'] = $this->is_device('MOBILE');
+    }
+    
+    /**
+     * Get app name
+     * @return string of app name
+     */
+    public function app_name(){
+        return self::APP_NAME;
+    }
+    
+    /**
+     * Get App Name in long format
+     * @return string of app name
+     */
+    public function app_name_long(){
+        return self::APP_NAME_LONG;
+    }
+    
+    /**
+     * Get App Version
+     * @return float app version
+     */
+    public function app_version(){
+        return self::APP_VER;
+    }
+    
+    /**
+     * Get App Long String
+     * @return string app long string name, version and year
+     */
+    public function app_long_string(){
+        $app_string  = sprintf("%s (%s) Version %F Year %d", self::APP_NAME_LONG, self::APP_NAME, self::APP_VER, self::APP_YEAR);
+        
+        return $app_string;
     }
     
     private function __initialisation(){
@@ -323,6 +362,14 @@ class MY_AdminController extends MY_Controller {
         $this->data['avatar_url_me'] = $this->users->get_avatar_url();
         $this->data['me'] = $this->users->me();
         $this->data['privileges'] = $this->users->get_privileges();
+        
+        /*APP Information*/
+        $this->data['APPINFO'] = array(
+            "APP_NAME"          => $this->app_name(),
+            "APP_NAME_LONG"     => $this->app_name_long(),
+            "APP_VERSION"       => $this->app_version(),
+            "APP_STRING"        => $this->app_long_string()
+        );
     }
     
     
