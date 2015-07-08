@@ -4,7 +4,10 @@
       <header class="main-header">
 
         <!-- Logo -->
-        <a href="#" class="logo"><img src="<?php echo site_url(config_item('path_assets').'img/logo.png'); ?>"> SISM</a>
+        <a href="#" class="logo">
+            <img src="<?php echo site_url(config_item('path_assets').'img/logo.png'); ?>">
+            <?php echo $APPINFO["APP_NAME"];?> <small><?php echo 'v.'.$APPINFO["APP_VERSION"]; ?></small>
+        </a>
 
         <!-- Header Navbar -->
         <?php $this->load->view("components/_header_navbar") ?>
@@ -71,10 +74,10 @@
       <footer class="main-footer">
         <!-- To the right -->
         <div class="pull-right hidden-xs">
-          Sistem Informasi Surat Menyurat
+          <?php echo $APPINFO["APP_NAME_LONG"]; ?>
         </div>
         <!-- Default to the left --> 
-        <strong>Copyright &copy; 2015 <a href="#">SISM</a>.</strong> All rights reserved.
+        <strong>Copyright &copy; 2015 Kab. Lubuklinggau <a href="#"><?php echo $APPINFO["APP_NAME"] .' v.'. $APPINFO["APP_VERSION"]; ?></a>.</strong> All rights reserved.
       </footer>
 
     </div>
