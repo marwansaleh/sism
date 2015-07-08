@@ -233,6 +233,20 @@ class Userlib extends Library {
     }
     
     /**
+     * Get all current user privileges
+     * @return associative array of current user privileges
+     */
+    public function get_privileges(){
+        $roles = $this->_get_all_roles();
+        $privileges = array();
+        
+        foreach ($roles as $role){
+            $privileges[$role->role_name] = $this->has_access($role->role_name);
+        }
+        return $privileges;
+    }
+    
+    /**
      * Check group is admin group
      * @param int $group_id
      * @return boolean
