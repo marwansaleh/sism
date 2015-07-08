@@ -10,6 +10,34 @@
                 <td><?php echo $user->group_name; ?></td>
             </tr>
             <tr>
+                <td class="text-bold">Divisi</td>
+                <td><?php echo $user->division_name; ?></td>
+            </tr>
+            <tr>
+                <td class="text-bold">Jabatan</td>
+                <td><?php echo $user->jabatan; ?></td>
+            </tr>
+            <tr>
+                <td class="text-bold">Golongan</td>
+                <td><?php echo $user->golongan; ?></td>
+            </tr>
+            <tr>
+                <td class="text-bold">Pangkat</td>
+                <td><?php echo $user->pangkat; ?></td>
+            </tr>
+            <tr>
+                <td class="text-bold">Jumlah Surat Masuk</td>
+                <td><span class="badge badge-info"><?php echo $user->mail_count["incoming"]; ?></span></td>
+            </tr>
+            <tr>
+                <td class="text-bold">Jumlah Disposisi</td>
+                <td><span class="badge badge-info"><?php echo $user->mail_count["disposition"]; ?></span></td>
+            </tr>
+            <tr>
+                <td class="text-bold">Jumlah Surat Keluar</td>
+                <td><span class="badge badge-info"><?php echo $user->mail_count["outgoing"]; ?></span></td>
+            </tr>
+            <tr>
                 <td class="text-bold">Email address</td>
                 <td><?php echo $user->email; ?></td>
             </tr>
