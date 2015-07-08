@@ -1,6 +1,7 @@
 <style type="text/css">
     .large-box {height: 300px; overflow: hidden; outline: none;}
-    .medium-box {height: 200px; overflow: hidden; outline:none;}
+    .medium-box {height: 110px; overflow: hidden; outline:none;}
+    .userlist-box {height: 500px; overflow: hidden; outline:none;}
 </style>
 <div class="row">
     <div class="col-md-3 col-sm-6 col-xs-12">
@@ -50,9 +51,10 @@
     </div>
     
     <div class="col-sm-8">
+        <!-- Latest Incoming -->
         <div class="box box-primary">
             <div class="box-header">
-                <h3 class="box-title"><i class="fa fa-file"></i> Latest Articles</h3>
+                <h3 class="box-title"><i class="fa fa-file"></i> Latest Incomings</h3>
                 <div class="box-tools pull-right">
                     <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -60,21 +62,94 @@
             </div>
             <div class="box-body">
                 <div class="medium-box">
-                    <ul class="media-list">
-                        <?php foreach ($last_articles as $la): ?>
-                        <li class="media">
-                            <div class="media-left">
-                                <a href="<?php echo site_url('cms/article/edit?id='.$la->id); ?>">
-                                    <img class="media-object" src="<?php echo get_image_thumb($la->image_url, IMAGE_THUMB_SMALLER) ?>" />
-                                </a>
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading"><a href="<?php echo site_url('cms/article/edit?id='.$la->id); ?>"><?php echo $la->title; ?></a></h4>
-                                <p><?php echo $la->synopsis; ?>  <i class="fa fa-user"></i> <span class="text-maroon"><?php echo $la->author;?></span> <i class="fa fa-clock-o"></i> <span class="text-maroon"><?php echo date('d M Y H:i', $la->modified); ?></span></p>
-                            </div>
-                        </li>
+                    <?php if (count($last_incomings)): ?>
+                    <table class="table table-striped table-condensed" role="table">
+                        <tr>
+                            <th>Sender</th>
+                            <th>Recipient</th>
+                            <th>Date</th>
+                            <th>Subject</th>
+                        </tr>
+                        <?php foreach ($last_incomings as $incoming): ?>
+                        <tr>
+                            <td><?php echo $incoming->sender_name; ?></td>
+                            <td><?php echo $incoming->receiver_name ?></td>
+                            <td><?php echo date("d-m-Y", strtotime($incoming->receive_date)); ?></td>
+                            <td><?php echo $incoming->subject; ?></td>
+                        </tr>
                         <?php endforeach; ?>
-                    </ul>
+                    </table>
+                    <?php else : ?>
+                    <p>You don't have any incoming mail yet</p>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+        <!-- Latest disposition -->
+        <div class="box box-primary">
+            <div class="box-header">
+                <h3 class="box-title"><i class="fa fa-file"></i> Latest Dispositions</h3>
+                <div class="box-tools pull-right">
+                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="medium-box">
+                    <?php if (count($last_dispositions)): ?>
+                    <table class="table table-striped table-condensed" role="table">
+                        <tr>
+                            <th>Sender</th>
+                            <th>Recipient</th>
+                            <th>Date</th>
+                            <th>Note</th>
+                        </tr>
+                        <?php foreach ($last_dispositions as $disposition): ?>
+                        <tr>
+                            <td><?php echo $disposition->sender_name; ?></td>
+                            <td><?php echo $disposition->receiver_name ?></td>
+                            <td><?php echo date("d-m-Y", $disposition->created); ?></td>
+                            <td><?php echo $disposition->notes; ?></td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </table>
+                    <?php else: ?>
+                    <p>You don't have any disposition mail yet</p>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+        <!-- Latest outgoing -->
+        <div class="box box-primary">
+            <div class="box-header">
+                <h3 class="box-title"><i class="fa fa-file"></i> Latest Outgoings</h3>
+                <div class="box-tools pull-right">
+                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="medium-box">
+                    <?php if (count($last_outgoings)): ?>
+                    <table class="table table-striped table-condensed" role="table">
+                        <tr>
+                            <th>Sender</th>
+                            <th>Recipient</th>
+                            <th>Date</th>
+                            <th>Subject</th>
+                        </tr>
+                        <?php foreach ($last_outgoings as $outgoing): ?>
+                        <tr>
+                            <td><?php echo $outgoing->sender_name; ?></td>
+                            <td><?php echo $outgoing->receiver_name ?></td>
+                            <td><?php echo date("d-m-Y", $outgoing->created); ?></td>
+                            <td><?php echo $outgoing->subject; ?></td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </table>
+                    <?php else: ?>
+                    <p>You don't have any outgoing mail yet</p>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -89,7 +164,7 @@
                 </div>
             </div>
             <div class="box-body">
-                <div class="medium-box">
+                <div class="userlist-box">
                     <table class="table table-striped">
                         <tbody>
                             <?php foreach ($user_onlines as $ol): ?>
@@ -117,5 +192,6 @@
 <script type="text/javascript">
     $(document).ready(function(){
         $('.medium-box').niceScroll({cursorcolor:"#cecece"});
+        $('.userlist-box').niceScroll({cursorcolor:"#cecece"});
     });
 </script>
