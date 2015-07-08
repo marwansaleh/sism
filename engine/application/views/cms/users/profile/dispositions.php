@@ -11,7 +11,7 @@
             <tr>
                 <td><?php echo $disposition->sender_name; ?></td>
                 <td><?php echo $disposition->receiver_name ?></td>
-                <td><?php echo date("d-m-Y", $disposition->created); ?></td>
+                <td><?php echo date("d-m-Y H:i", $disposition->created); ?></td>
                 <td><?php echo $disposition->notes; ?></td>
                 <td class="text-center"><?php echo $disposition->status_name; ?></td>
             </tr>
