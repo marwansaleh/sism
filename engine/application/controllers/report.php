@@ -31,6 +31,7 @@ class Report extends MY_AdminController {
         $this->data['outgoings'] = array();
         
         if ($this->input->post('submitted')){
+            $this->user_activity('Generate report using month:'.$selected_month.' and year: '.$selected_year, $this->users->get_userid());
             //build filter
             $where = array();
             if ($selected_year){
