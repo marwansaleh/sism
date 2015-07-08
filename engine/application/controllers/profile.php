@@ -78,6 +78,11 @@ class Profile extends MY_AdminController {
             $this->data['last_outgoings'] [] = $outgoing;
         }
         
+        if (!isset($this->user_activity_m)){
+            $this->load->model('users/user_activity_m');
+        }
+        $this->data['user_activities'] = $this->user_activity_m->get_offset('*',array('user_id'=>$userid),0, 50);
+        
         
         
         //get supported data
@@ -85,6 +90,10 @@ class Profile extends MY_AdminController {
             $avatars = $this->users->get_default_avatars();
             $this->data['avatars'] = array_merge($avatars, $this->users->get_my_avatars());
         }
+        if (!isset($this->division_m)){
+            $this->load->model('users/division_m');
+        }
+        $this->data['divisions'] = $this->division_m->get();
         
         //set breadcumb
         breadcumb_add($this->data['breadcumb'], 'Users', site_url('users'));
