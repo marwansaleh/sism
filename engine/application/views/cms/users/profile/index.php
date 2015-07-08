@@ -15,7 +15,7 @@
             <div class="col-sm-3 profile-picture">
                 <div class="media">
                     <div class="media-left">
-                        <img class="media-object img-circle <?php echo $me->id==$user->id?'user-active-image':''; ?>" src="<?php echo $user->avatar_full_url; ?>" />
+                        <img class="media-object img-circle <?php echo $me->id==$user->id?'user-active-image':''; ?>" src="<?php echo $user->avatar_url; ?>" />
                     </div>
                     <div class="media-body">
                         <h4 class="media-heading">Welcome back</h4>
@@ -35,7 +35,9 @@
                 <div class="nav-tabs-custom">
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="active"><a href="#profile" role="tab" data-toggle="tab">Profile</a></li>
-                        <li><a href="#articles" role="tab" data-toggle="tab">Latest Articles</a></li>
+                        <li><a href="#incomings" role="tab" data-toggle="tab">Latest Incomings</a></li>
+                        <li><a href="#dispositions" role="tab" data-toggle="tab">Latest Dispositions</a></li>
+                        <li><a href="#outgoings" role="tab" data-toggle="tab">Latest Outgoings</a></li>
                         <?php if ($me->id==$user->id): ?>
                         <li><a href="#update" role="tab" data-toggle="tab">Update Info</a></li>
                         <?php endif; ?>
@@ -45,7 +47,7 @@
                             <?php $this->load->view('cms/users/profile/profile'); ?>
                         </div>
                         <div role="tabpanel" class="tab-pane" id="articles">
-                            <?php $this->load->view('cms/users/profile/articles'); ?>
+                            <?php $this->load->view('cms/users/profile/incomings'); ?>
                         </div>
                         <?php if ($me->id==$user->id): ?>
                         <div role="tabpanel" class="tab-pane" id="update">
