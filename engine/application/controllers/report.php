@@ -22,9 +22,7 @@ class Report extends MY_AdminController {
     function index(){
         //check if any post data
         $selected_year = $this->input->post("year");
-        $this->data["selected_year"] = $selected_year;
         $selected_month = $this->input->post("month");
-        $this->data["selected_month"] = $selected_month;
         
         $this->data['incomings'] = array();
         $this->data['dispositions'] = array();
@@ -113,7 +111,17 @@ class Report extends MY_AdminController {
 
                 $this->data['outgoings'] [] = $outgoing;
             }
+        }else{
+            if (!$selected_month){
+                $selected_month = date('m');
+            }
+            if (!$selected_year){
+                $selected_year = date('Y');
+            }
         }
+        
+        $this->data["selected_year"] = $selected_year;
+        $this->data["selected_month"] = $selected_month;
         
         //get supporting data
         $this->data['years'] = array(2015);
