@@ -10,13 +10,13 @@
                     <form role="form" method="post" class="form-inline">
                         <input type="hidden" name="submitted" value="1">
                         <select class="form-control input-sm" id="year" name='year'>
-                            <option value="0">--Select Year--</option>
+                            <option value="0">--Select All Years--</option>
                             <?php foreach ($years as $year): ?>
                             <option value="<?php echo $year; ?>" <?php echo $selected_year==$year?'selected':''; ?>><?php echo $year;?></option>
                             <?php endforeach; ?>
                         </select>
                         <select class="form-control input-sm" id="month" name='month'>
-                            <option value="0">--Select Month--</option>
+                            <option value="0">--Select All Months--</option>
                             <?php for ($month=1; $month <= count($months); $month++): ?>
                             <option value="<?php echo $month; ?>" <?php echo $selected_month==$month?'selected':''; ?>><?php echo $months[$month-1];?></option>
                             <?php endfor; ?>
