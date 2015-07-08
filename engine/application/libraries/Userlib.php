@@ -347,7 +347,10 @@ class Userlib extends Library {
             $user->username = $this->ci->session->userdata('username');
             $user->avatar = $this->ci->session->userdata('avatar');
             $user->created_on = $this->ci->session->userdata('created_on');
-            
+            $user->jabatan = $this->ci->session->userdata('jabatan');
+            $user->pangkat = $this->ci->session->userdata('pangkat');
+            $user->golongan = $this->ci->session->userdata('golongan');
+            $user->nip = $this->ci->session->userdata('nip');
         }else {
             $user = $this->ci->user_m->get($this->get_userid());
             $user->group_name = $this->_get_group_name($user->group_id);
@@ -407,7 +410,11 @@ class Userlib extends Library {
             'last_login'        => $user->last_login>0 ? $user->last_login : time(),
             'avatar'            => $user->avatar ? $user->avatar : $this->ci->config->item('avatar') .'default/default.jpg',
             'created_on'        => $user->created_on,
-            'token'             => $user->token
+            'token'             => $user->token,
+            'jabatan'           => $user->jabatan,
+            'pangkat'           => $user->pangkat,
+            'golongan'          => $user->golongan,
+            'nip'               => $user->nip
         );
         
         $this->ci->session->set_userdata($user_session);

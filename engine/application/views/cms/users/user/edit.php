@@ -52,11 +52,23 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
+                                    <label>Divisi / Bidang</label>
+                                    <select name="division" class="form-control">
+                                        <?php foreach ($divisions as $div): ?>
+                                        <option value="<?php echo $div->id; ?>" <?php echo $item->division_id==$div->id?'selected':''; ?>><?php echo $div->division; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
                                     <label>Jabatan</label>
                                     <input type="text" name="jabatan" class="form-control" value="<?php echo $item->jabatan; ?>">
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
                                 <div class="form-group">
                                     <label>Pangkat</label>
                                     <select name="pangkat" class="form-control">
@@ -66,9 +78,7 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-2">
                                 <div class="form-group">
                                     <label>Golongan</label>
                                     <select name="golongan" class="form-control">

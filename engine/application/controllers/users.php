@@ -12,7 +12,7 @@ class Users extends MY_AdminController {
         $this->data['page_description'] = 'List and update users';
         
         //Loading model
-        $this->load->model(array('users/usergroup_m'));
+        $this->load->model(array('users/usergroup_m', 'users/division_m'));
     }
     
     function index(){
@@ -79,6 +79,8 @@ class Users extends MY_AdminController {
         $this->data['golongan_array'] = array ('IV/b', 'IV/a', 'III/d', 'III/c', 'III/b', 'III/a', 'II/d', 'II/c', 'II/b', 'II/a');
         //data support
         $this->data['groups'] = $this->usergroup_m->get();
+        $this->data['divisions'] = $this->division_m->get();
+        //print_r($this->division_m->get());exit;
         
         $avatars = $this->users->get_default_avatars();
         if ($id && $id==$this->users->get_userid()){
