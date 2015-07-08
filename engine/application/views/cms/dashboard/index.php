@@ -169,7 +169,7 @@
                         <tbody>
                             <?php foreach ($user_onlines as $ol): ?>
                             <tr>
-                                <td><a data-toggle="tooltip" data-placement="left" title="Look profile" href="<?php echo site_url('cms/profile/index?id='.$ol->id) ;?>"><?php echo $ol->full_name; ?></a></td>
+                                <td><a data-toggle="tooltip" data-placement="left" title="Look profile" href="<?php echo site_url('profile/index?id='.$ol->id) ;?>"><?php echo $ol->full_name; ?></a></td>
                                 <td>
                                     <td class="text-right">
                                         <?php if ($ol->is_online): ?>
