@@ -16,33 +16,79 @@ class Profile extends MY_AdminController {
     }
     
     function index(){
-        $id = $this->input->get('id', TRUE);
+        $userid = $this->input->get('id', TRUE) ? $this->input->get('id', TRUE) : $this->users->get_userid();
+        $me = $this->users->me();
         
-        $user = $this->user_m->get($id);
-        $user->group_name = $this->usergroup_m->get_value('group_name',array('group_id'=>$user->group_id));
-        $user->is_online = $this->users->is_online($user->session_id);
-        $user->avatar_full_url = $this->users->get_avatar_url($user->avatar);
-        
-        //get last articles
-        $this->load->model('article/article_m');
-        $articles = $this->article_m->get_offset('*',array('created_by'=>$id),0,10);
-        $user->last_articles = array();
-        foreach ($articles as $article){
-            $article->author = $user->full_name;
-            $user->last_articles [] = $article;
-        }
-        
+        //get user info
+        $user = $this->users->get_user_info($userid);
         $this->data['user'] = $user;
         
+        //get last mail
+        $latest_num_records = 10;
+        
+        if (!isset($this->incoming_m)){
+            $this->load->model('mail/incoming_m');
+        }
+        $last_incomings = $this->incoming_m->get_offset('*', $this->users->has_access('INCOMING_VIEW_ALL') ? NULL : array('receiver'=>$me->id),0,$latest_num_records);
+        $this->data['last_incomings'] = array();
+        foreach ($last_incomings as $incoming){
+            $incoming->receiver_name = $incoming->receiver==$me->id ? 'You' : $this->user_m->get_value('full_name', array('id'=>$incoming->receiver));
+            $incoming->status_name = mail_status($incoming->status, MAIL_TYPE_INCOMING, SIDE_RECEIVER);
+            
+            $this->data['last_incomings'] [] = $incoming;
+        }
+        
+        if (!isset($this->disposition_m)){
+            $this->load->model('mail/disposition_m');
+        }
+        $this->db->where('receiver', $me->id)->or_where('sender', $me->id);
+        $last_dispositions = $this->disposition_m->get_offset('*', NULL,0,$latest_num_records);
+        $this->data['last_dispositions'] = array();
+        foreach ($last_dispositions as $disposition){
+            $disposition->status_name = mail_status($disposition->status, $disposition->mail_type, $disposition->sender==$this->users->get_userid()?SIDE_SENDER:SIDE_RECEIVER);
+            if ($disposition->mail_type==MAIL_TYPE_INCOMING){
+                $disposition->subject = $this->incoming_m->get_value('subject', array('id' => $disposition->mail_id));
+            } else {
+                $disposition->subject = $this->outgoing_m->get_value('subject', array('id' => $disposition->mail_id));
+            }
+            if ($disposition->sender == 0) {
+                if ($disposition->mail_type == MAIL_TYPE_INCOMING) {
+                    $disposition->sender_name = $this->incoming_m->get_value('sender_name', array('id' => $disposition->mail_id));
+                } else {
+                    $disposition->sender_name = '';
+                }
+            } else {
+                $disposition->sender_name = $disposition->sender==$me->id ? 'You' : $this->user_m->get_value('full_name', array('id' => $disposition->sender));
+            }
+            $disposition->receiver_name = $disposition->receiver == $me->id ? 'You' : $this->user_m->get_value('full_name', array('id'=>$disposition->receiver));
+            
+            $this->data['last_dispositions'] [] = $disposition;
+        }
+        
+        if (!isset($this->outgoing_m)){
+            $this->load->model('mail/outgoing_m');
+        }
+        $last_outgoings = $this->outgoing_m->get_offset('*', $this->users->has_access('OUTGOING_VIEW_ALL') ? NULL : array('sender'=>$me->id),0,$latest_num_records);
+        $this->data['last_outgoings'] = array();
+        foreach ($last_outgoings as $outgoing){
+            $outgoing->sender_name = $outgoing->sender == $me->id ? 'You' : $this->user_m->get_value('full_name', array('id'=>$outgoing->sender));
+            $outgoing->receiver_name = $outgoing->receiver>0 ? $this->user_m->get_value('full_name', array('id'=>$outgoing->receiver)):$outgoing->literally_receiver;
+            $outgoing->status_name = mail_status($outgoing->status, MAIL_TYPE_OUTGOING, SIDE_SENDER);
+            
+            $this->data['last_outgoings'] [] = $outgoing;
+        }
+        
+        
+        
         //get supported data
-        if ($this->users->get_userid()==$id){
+        if ($this->users->get_userid()==$userid){
             $avatars = $this->users->get_default_avatars();
             $this->data['avatars'] = array_merge($avatars, $this->users->get_my_avatars());
         }
         
         //set breadcumb
-        breadcumb_add($this->data['breadcumb'], 'Users', site_url('cms/users'));
-        breadcumb_add($this->data['breadcumb'], 'Profile', site_url('cms/profile'), TRUE);
+        breadcumb_add($this->data['breadcumb'], 'Users', site_url('users'));
+        breadcumb_add($this->data['breadcumb'], 'Profile', site_url('profile'), TRUE);
         
         $this->data['subview'] = 'cms/users/profile/index';
         $this->load->view('_layout_admin', $this->data);
