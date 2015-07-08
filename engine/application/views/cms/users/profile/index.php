@@ -42,6 +42,7 @@
                         <li><a href="#incomings" role="tab" data-toggle="tab">Latest Incomings</a></li>
                         <li><a href="#dispositions" role="tab" data-toggle="tab">Latest Dispositions</a></li>
                         <li><a href="#outgoings" role="tab" data-toggle="tab">Latest Outgoings</a></li>
+                        <li><a href="#activity" role="tab" data-toggle="tab">User Activity Log</a></li>
                         <?php if ($me->id==$user->id): ?>
                         <li><a href="#update" role="tab" data-toggle="tab">Update Info</a></li>
                         <?php endif; ?>
@@ -58,6 +59,9 @@
                         </div>
                         <div role="tabpanel" class="tab-pane" id="outgoings">
                             <?php $this->load->view('cms/users/profile/outgoings'); ?>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="activity">
+                            <?php $this->load->view('cms/users/profile/activity'); ?>
                         </div>
                         <?php if ($me->id==$user->id): ?>
                         <div role="tabpanel" class="tab-pane" id="update">
