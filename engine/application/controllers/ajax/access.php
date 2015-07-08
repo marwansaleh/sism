@@ -37,7 +37,7 @@ class Access extends MY_Ajax {
 
                     //create user activity log
                     $has_access_label = $has_access?'enabled':'disabled';
-                    $this->user_activity("Set privileges to {$has_access_label} groupID:{$group_id} for feature roleID:{$role_id}.");
+                    $this->user_activity("Set privileges to {$has_access_label} groupID:{$group_id} for feature roleID:{$role_id}.", $this->users->get_userid());
                 }else{
                     $result['message'] = $this->access_g_m->get_last_message();
                 }
@@ -76,7 +76,7 @@ class Access extends MY_Ajax {
 
                     //create user activity log
                     $has_access_label = $has_access?'enabled':'disabled';
-                    $this->user_activity("Set privileges to {$has_access_label} userID:{$user_id} for feature roleID:{$role_id}.");
+                    $this->user_activity("Set privileges to {$has_access_label} userID:{$user_id} for feature roleID:{$role_id}.", $this->users->get_userid());
                 }else{
                     $result['message'] = $this->access_u_m->get_last_message();
                 }
