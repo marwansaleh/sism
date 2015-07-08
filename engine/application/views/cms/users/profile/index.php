@@ -14,17 +14,21 @@
         <div class="row">
             <div class="col-sm-3 profile-picture">
                 <div class="media">
-                    <div class="media-left">
-                        <img class="media-object img-circle <?php echo $me->id==$user->id?'user-active-image':''; ?>" src="<?php echo $user->avatar_url; ?>" />
+                    <div class="media-left pull-left">
+                        <img  class="media-object img-circle <?php echo $me->id==$user->id?'user-active-image':''; ?>" src="<?php echo $user->avatar_url; ?>" />
                     </div>
                     <div class="media-body">
-                        <h4 class="media-heading">Welcome back</h4>
+                        <?php if ($me->id == $user->id): ?>
+                        <h4 class="media-heading">Welcome back <?php echo $user->full_name; ?></h4>
+                        <?php else: ?>
+                        <h4 class="media-heading"><?php echo $user->full_name ?>'s Profile</h4>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
             <div class="col-sm-9 profile-about">
                 <h3>About</h3>
-                <p><?php echo nl2br($user->about); ?></p>
+                <p><?php echo $user->about?nl2br($user->about):($user->id==$me->id ? "Please update your profile." : "This user should update his / her profile."); ?></p>
             </div>
         </div>
     </div>
@@ -46,8 +50,14 @@
                         <div role="tabpanel" class="tab-pane active" id="profile">
                             <?php $this->load->view('cms/users/profile/profile'); ?>
                         </div>
-                        <div role="tabpanel" class="tab-pane" id="articles">
+                        <div role="tabpanel" class="tab-pane" id="incomings">
                             <?php $this->load->view('cms/users/profile/incomings'); ?>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="dispositions">
+                            <?php $this->load->view('cms/users/profile/dispositions'); ?>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="outgoings">
+                            <?php $this->load->view('cms/users/profile/outgoings'); ?>
                         </div>
                         <?php if ($me->id==$user->id): ?>
                         <div role="tabpanel" class="tab-pane" id="update">
