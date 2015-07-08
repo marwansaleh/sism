@@ -76,6 +76,8 @@ class Auth extends MY_Controller {
                 redirect('auth');exit;
             }else{
                 $this->_write_log('Success login for username '.  $username.'...redirecting to admin page...');
+                
+                $this->user_activity("Success login using ".$this->is_device('DESKTOP') ? 'Desktop Browser':'Mobile', $this->users->get_userid());
                 redirect('dashboard');exit;
             }
         }
@@ -89,6 +91,7 @@ class Auth extends MY_Controller {
     }
     
     function logout(){
+        $this->user_activity("Logout from application", $this->users->get_userid());
         
         $this->users->logout();
         redirect('auth');
