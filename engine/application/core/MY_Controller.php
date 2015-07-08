@@ -322,6 +322,7 @@ class MY_AdminController extends MY_Controller {
         //set user loggedin info
         $this->data['avatar_url_me'] = $this->users->get_avatar_url();
         $this->data['me'] = $this->users->me();
+        $this->data['privileges'] = $this->users->get_privileges();
     }
     
     
