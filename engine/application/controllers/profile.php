@@ -29,7 +29,7 @@ class Profile extends MY_AdminController {
         if (!isset($this->incoming_m)){
             $this->load->model('mail/incoming_m');
         }
-        $last_incomings = $this->incoming_m->get_offset('*', $this->users->has_access('INCOMING_VIEW_ALL') ? NULL : array('receiver'=>$me->id),0,$latest_num_records);
+        $last_incomings = $this->incoming_m->get_offset('*', array('receiver'=>$userid),0,$latest_num_records);
         $this->data['last_incomings'] = array();
         foreach ($last_incomings as $incoming){
             $incoming->receiver_name = $incoming->receiver==$me->id ? 'You' : $this->user_m->get_value('full_name', array('id'=>$incoming->receiver));
@@ -41,11 +41,11 @@ class Profile extends MY_AdminController {
         if (!isset($this->disposition_m)){
             $this->load->model('mail/disposition_m');
         }
-        $this->db->where('receiver', $me->id)->or_where('sender', $me->id);
+        $this->db->where('receiver', $userid)->or_where('sender', $userid);
         $last_dispositions = $this->disposition_m->get_offset('*', NULL,0,$latest_num_records);
         $this->data['last_dispositions'] = array();
         foreach ($last_dispositions as $disposition){
-            $disposition->status_name = mail_status($disposition->status, $disposition->mail_type, $disposition->sender==$this->users->get_userid()?SIDE_SENDER:SIDE_RECEIVER);
+            $disposition->status_name = mail_status($disposition->status, $disposition->mail_type, $disposition->sender==$userid?SIDE_SENDER:SIDE_RECEIVER);
             if ($disposition->mail_type==MAIL_TYPE_INCOMING){
                 $disposition->subject = $this->incoming_m->get_value('subject', array('id' => $disposition->mail_id));
             } else {
@@ -68,7 +68,7 @@ class Profile extends MY_AdminController {
         if (!isset($this->outgoing_m)){
             $this->load->model('mail/outgoing_m');
         }
-        $last_outgoings = $this->outgoing_m->get_offset('*', $this->users->has_access('OUTGOING_VIEW_ALL') ? NULL : array('sender'=>$me->id),0,$latest_num_records);
+        $last_outgoings = $this->outgoing_m->get_offset('*', array('sender'=>$userid),0,$latest_num_records);
         $this->data['last_outgoings'] = array();
         foreach ($last_outgoings as $outgoing){
             $outgoing->sender_name = $outgoing->sender == $me->id ? 'You' : $this->user_m->get_value('full_name', array('id'=>$outgoing->sender));
