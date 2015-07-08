@@ -222,6 +222,8 @@ class Disposition extends MY_AdminController {
                     'history_ref_id'    => $history_ref_id,
                     'created'           => time()
                 );
+                
+                $this->user_activity("Post disposition with notes '".$postdata["notes"]."'", $this->users->get_userid());
             }
             //print_r($post_batch);exit;
             $this->disposition_m->save_batch($post_batch);
@@ -395,6 +397,8 @@ class Disposition extends MY_AdminController {
                 if ($this->disposition_m->delete($id)){
                     $this->session->set_flashdata('message_type','success');
                     $this->session->set_flashdata('message', 'Data item deleted successfully');
+                    
+                    $this->user_activity("Delete disposition with notes '".$item->notes."'", $this->users->get_userid());
                 }else{
                     $this->session->set_flashdata('message_type','error');
                     $this->session->set_flashdata('message', $this->disposition_m->get_last_message());
@@ -436,6 +440,8 @@ class Disposition extends MY_AdminController {
                 
                 $this->session->set_flashdata('message_type','success');
                 $this->session->set_flashdata('message', 'You have signed the outgoing mail successfully');
+                
+                $this->user_activity("Signed disposition with notes '".$item->notes."'", $this->users->get_userid());
                 
                 //is any reference to incoming
                 if ($mail->incoming_ref_id>0){

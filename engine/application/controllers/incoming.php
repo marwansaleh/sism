@@ -162,6 +162,8 @@ class Incoming extends MY_AdminController {
                 $this->session->set_flashdata('message_type','success');
                 $this->session->set_flashdata('message', 'Data group user saved successfully');
                 
+                $this->user_activity("Update incoming subject '".$postdata['subject']."'", $this->users->get_userid());
+                
                 //save with new data
                 if ($attachments){
                     $attachments = explode('|', $attachments);
@@ -221,6 +223,8 @@ class Incoming extends MY_AdminController {
             if ($this->incoming_m->delete($id)){
                 $this->session->set_flashdata('message_type','success');
                 $this->session->set_flashdata('message', 'Data item deleted successfully');
+                
+                $this->user_activity("Delete incoming subject '".$item['subject']."'", $this->users->get_userid());
             }else{
                 $this->session->set_flashdata('message_type','error');
                 $this->session->set_flashdata('message', $this->incoming_m->get_last_message());

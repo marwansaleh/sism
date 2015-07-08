@@ -164,6 +164,7 @@ class Outgoing extends MY_AdminController {
                 $this->session->set_flashdata('message_type','success');
                 $this->session->set_flashdata('message', 'Data outgoing saved successfully');
                 
+                $this->user_activity("Update outgoing with subject '".$postdata["subject"]."'", $this->users->get_userid());
                 //check if any reference in incoming
                 if (isset($postdata['incoming_ref_id'])){
                     $this->incoming_m->save(array('status'=>MAIL_STATUS_RESPONDED), $postdata['incoming_ref_id']);

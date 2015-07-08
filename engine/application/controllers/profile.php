@@ -19,9 +19,15 @@ class Profile extends MY_AdminController {
         $userid = $this->input->get('id', TRUE) ? $this->input->get('id', TRUE) : $this->users->get_userid();
         $me = $this->users->me();
         
+        
         //get user info
         $user = $this->users->get_user_info($userid);
         $this->data['user'] = $user;
+        
+        //if different user, log it
+        if ($userid != $me->id){
+            $this->user_activity("Open user profile of ".$user->full_name, $me->id);
+        }
         
         //get last mail
         $latest_num_records = 10;
