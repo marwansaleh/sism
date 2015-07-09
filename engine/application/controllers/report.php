@@ -16,7 +16,7 @@ class Report extends MY_AdminController {
         $this->load->model('mail/outgoing_m', 'outgoing_m');
         $this->load->model('mail/disposition_m', 'disposition_m');
         
-        $this->output->enable_profiler(TRUE);
+        //$this->output->enable_profiler(TRUE);
     }
     
     function index(){

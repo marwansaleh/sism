@@ -120,7 +120,7 @@ class Outgoing extends MY_AdminController {
         $this->data['item'] = $item;
         
         //suporting data
-        $this->data['signers'] = $this->user_m->get_select_where('id,full_name,position',array('id !='=> $me->id),FALSE);
+        $this->data['signers'] = $this->user_m->get_select_where('id,full_name,jabatan,position',array('id !='=> $me->id),FALSE);
         $this->data['priorities'] = mail_priority();
         $this->data['incomings'] = $this->incoming_m->get_select_where('id,subject',NULL);
         
