@@ -120,7 +120,7 @@ class Outgoing extends MY_AdminController {
         $this->data['item'] = $item;
         
         //suporting data
-        $this->data['signers'] = $this->user_m->get_select_where('id,full_name,jabatan,position',array('id !='=> $me->id),FALSE);
+        $this->data['signers'] = $this->user_m->get_select_where('id,full_name,jabatan',array('id !='=> $me->id),FALSE);
         $this->data['priorities'] = mail_priority();
         $this->data['incomings'] = $this->incoming_m->get_select_where('id,subject',NULL);
         
@@ -212,7 +212,7 @@ class Outgoing extends MY_AdminController {
         if ($item->literally_signer==1){
             $pengirim = $this->users->get_user_record($item->signer);
             $dict->nama_pengirim = $pengirim->full_name;
-            $dict->pangkat_pengirim = $pengirim->position;
+            $dict->pangkat_pengirim = $pengirim->jabatan;
         }
         $pdf->add_dictionary_obj($dict);
         

@@ -58,7 +58,7 @@
                     <label>Signer</label>
                     <select name="signer" class="form-control selectpicker" data-live-search="true" data-size="5">
                         <?php foreach ($signers as $signer): ?>
-                        <option value="<?php echo $signer->id; ?>" <?php echo $signer->id==$item->signer?'selected':''; ?>><?php echo $signer->position . ' ' . $signer->full_name; ?></option>
+                        <option value="<?php echo $signer->id; ?>" <?php echo $signer->id==$item->signer?'selected':''; ?>><?php echo $signer->jabatan . ' ' . $signer->full_name; ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
