@@ -30,7 +30,7 @@
                         <select name="receiver" class="form-control selectpicker" data-live-search="true" data-size="5" data-header="Pilih penerima disposisi">
                             <?php foreach ($users as $user): ?>
                             <option value="<?php echo $user->id; ?>" <?php echo $item->receiver==$user->id?'selected':''; ?>>
-                                <?php echo $user->full_name; ?> [ <?php echo $user->position; ?> ]
+                                <?php echo $user->full_name; ?> [ <?php echo $user->jabatan; ?> ]
                             </option>
                             <?php endforeach; ?>
                         </select>

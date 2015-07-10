@@ -54,7 +54,7 @@
                             <label>Penerima</label>
                             <select name="receiver" class="form-control selectpicker" data-live-search="true" data-size="5"data-header="Pilih penerima">
                                 <?php foreach ($users as $user): ?>
-                                <option value="<?php echo $user->id; ?>" <?php echo $user->id==$item->receiver?'selected':''; ?>><?php echo $user->full_name; ?> [ <?php echo $user->position; ?> ]</option>
+                                <option value="<?php echo $user->id; ?>" <?php echo $user->id==$item->receiver?'selected':''; ?>><?php echo $user->full_name; ?> [ <?php echo $user->jabatan; ?> ]</option>
                                 <?php endforeach; ?>
                             </select>
                         </div>

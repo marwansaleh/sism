@@ -123,7 +123,7 @@ class Disposition extends MY_AdminController {
         
         //suporting data
         $this->data['users'] = array();
-        $users = $this->user_m->get_select_where('id,full_name,position',array('id !='=> $this->users->get_userid()),FALSE);
+        $users = $this->user_m->get_select_where('id,full_name,jabatan',array('id !='=> $this->users->get_userid()),FALSE);
         foreach ($users as $user){
             $user->incoming = $this->incoming_m->get_count(array('receiver'=>$user->id,'status'=>MAIL_STATUS_NEW));
             $user->disposition = $this->disposition_m->get_count(array('receiver'=>$user->id,'status'=>MAIL_STATUS_NEW));

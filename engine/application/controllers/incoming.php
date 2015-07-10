@@ -109,7 +109,7 @@ class Incoming extends MY_AdminController {
         $this->data['item'] = $item;
         
         //suporting data
-        $this->data['users'] = $this->user_m->get_select_where('id,full_name,position',NULL,FALSE);
+        $this->data['users'] = $this->user_m->get_select_where('id,full_name,jabatan',NULL,FALSE);
         $this->data['priorities'] = mail_priority();
         $this->data['sender_names'] = $this->sender_m->get_array();
         
