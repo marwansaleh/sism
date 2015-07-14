@@ -631,6 +631,7 @@ class Userlib extends Library {
         
         //get users which group_id in array group id can sign
         $this->ci->db->where_in('group_id', $array_group_id_list_can_sign);
+        $this->ci->db->where('is_active', 1);
         $users = $this->ci->user_m->get();
         
         $user_signers = array();
