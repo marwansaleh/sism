@@ -73,11 +73,11 @@ class Dashboard extends MY_AdminController {
         }
         
         //get visitors
-        $this->data['user_count'] = $this->user_m->get_count();
+        $this->data['user_count'] = $this->user_m->get_count(array('is_active'=>1));
         
         //get users
         $this->data['user_onlines'] = array();
-        $users = $this->user_m->get_select_where('id,session_id,full_name',NULL);
+        $users = $this->user_m->get_select_where('id,session_id,full_name',array('is_active'=>1));
         foreach ($users as $user){
             $user->is_online = $this->users->is_online($user->session_id);
             $this->data['user_onlines'] [] = $user;
