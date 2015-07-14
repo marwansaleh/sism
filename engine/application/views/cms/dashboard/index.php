@@ -61,7 +61,7 @@
                 </div>
             </div>
             <div class="box-body">
-                <canvas class="graphs" id="mail-chart"></canvas>
+                <canvas class="graphs" id="mail-chart"><span>Loading data...</span></canvas>
             </div>
         </div>
         <!-- Latest Incoming -->
@@ -315,10 +315,10 @@
                         },
                         {
                             label: "Outgoing",
-                            fillColor: "rgba(220,220,220,0.5)",
-                            strokeColor: "rgba(220,220,220,0.8)",
-                            highlightFill: "rgba(220,220,220,0.75)",
-                            highlightStroke: "rgba(220,220,220,1)",
+                            fillColor: "rgba(242,184,184,0.5)",
+                            strokeColor: "rgba(242,184,184,0.8)",
+                            highlightFill: "rgba(242,184,184,0.75)",
+                            highlightStroke: "rgba(242,184,184,1)",
                             data: result.dataset.outgoing
                         }
                     ]
