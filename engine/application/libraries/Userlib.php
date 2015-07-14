@@ -649,7 +649,7 @@ class Userlib extends Library {
             foreach ($user_from_access_role as $uac){
                 if (isset($user_signers[$uac->user_id])){
                     $user = $this->ci->user_m->get($uac->user_id);
-                    if ($user){
+                    if ($user && $user->is_active==1){
                         $user_signers[$uac->user_id] = $user;
                     }
                 }
