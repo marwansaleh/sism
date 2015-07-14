@@ -630,12 +630,14 @@ class Userlib extends Library {
         }
         
         //get users which group_id in array group id can sign
-        $users = $this->ci->user_m->get_wherein_offset($array_group_id_list_can_sign);
+        $this->ci->db->where_in('group_id', $array_group_id_list_can_sign);
+        $users = $this->ci->user_m->get();
         
         $user_signers = array();
         foreach ($users as $user){
             $user_signers [$user->id] = $user;
         }
+        
         
         //get from user access table
         if (!isset($this->ci->useraccess_u_m)){
