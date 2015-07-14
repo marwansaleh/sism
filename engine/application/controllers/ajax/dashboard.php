@@ -26,7 +26,7 @@ class Dashboard extends MY_Ajax {
         $year = date('Y');
         
         //Initialize dataset value foreach month
-        for ($i=1; $i<=count($months); $i++){
+        for ($i=0; $i<count($months); $i++){
             $result['dataset']['incoming'][$i] = 0;
             $result['dataset']['disposition'][$i] = 0;
             $result['dataset']['outgoing'][$i] = 0;
