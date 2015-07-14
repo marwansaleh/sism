@@ -9,7 +9,7 @@ class User_m extends MY_Model {
     protected $_table_name = 'users';
     protected $_primary_key = 'id';
     protected $_primary_filter = 'intval';
-    protected $_order_by = 'full_name';
+    protected $_order_by = 'sort, full_name';
     
     public $rules_login = array(
         'username' => array(
