@@ -20,6 +20,8 @@ class Userlib extends Library {
     const USER_TYPE_INT = 0;
     const USER_TYPE_EXT = 1;
     
+    const ROLE_CAN_SIGN = 'OUTGOING_SIGN';
+    
     function __construct() {
         parent::__construct();
         
@@ -600,4 +602,67 @@ class Userlib extends Library {
         return $this->ci->division_m->get_value('division', array('id'=>$division_id));
     }
     
+    private function _get_role($key){
+        if (!isset($this->ci->userrole_m)){
+            $this->ci->load->model('users/userrole_m');
+        }
+        $where = is_int($key) ? array('role_id'=>$role_id) : array('role_name' => $key);
+        
+        return $this->ci->userrole_m->get_by($where, TRUE);
+    }
+    
+    public function users_can_sign(){
+        //get role by its id
+        $role = $this->_get_role(self::ROLE_CAN_SIGN);
+        
+        //get which group can sign
+        if (!isset($this->ci->useraccess_g_m)){
+            $this->ci->load->model('users/useraccess_g_m');
+        }
+        $group_ids_can_sign = $this->ci->useraccess_g_m->get_by(array('role_id'=>$role->role_id, 'has_access'=>1));
+        
+        $array_group_id_list_can_sign = array();
+        if (!$group_ids_can_sign){
+            return NULL;
+        }
+        foreach ($group_ids_can_sign as $g){
+            $array_group_id_list_can_sign[] = $g->group_id;
+        }
+        
+        //get users which group_id in array group id can sign
+        $users = $this->ci->user_m->get_wherein_offset($array_group_id_list_can_sign);
+        
+        $user_signers = array();
+        foreach ($users as $user){
+            $user_signers [$user->id] = $user;
+        }
+        
+        //get from user access table
+        if (!isset($this->ci->useraccess_u_m)){
+            $this->ci->load->model('users/useraccess_u_m');
+        }
+        $user_from_access_role = $this->ci->useraccess_u_m->get_by(array('role_id'=>$role->role_id));
+        if ($user_from_access_role){
+            foreach ($user_from_access_role as $uac){
+                if (isset($user_signers[$uac->user_id])){
+                    $user = $this->ci->user_m->get($uac->user_id);
+                    if ($user){
+                        $user_signers[$uac->user_id] = $user;
+                    }
+                }
+            }
+        }
+        
+        return $user_signers;
+    }
+    
+    public function is_user_can_sign($userid){
+        //get all user signers
+        $user_signer_list = $this->users_can_sign();
+        if (isset($user_signer_list[$userid])){
+            return TRUE;
+        }
+        
+        return FALSE;
+    }
 }

@@ -132,7 +132,7 @@ class MY_Model extends CI_Model {
         return 0;
     }
     
-    public function get_offset($fields='*', $where=NULL, $offset=0, $limit=20, $method='result'){
+    public function get_offset($fields='*', $where=NULL, $offset=0, $limit=0, $method='result'){
         $this->db->select($fields);
         
         if ($where)
@@ -156,7 +156,7 @@ class MY_Model extends CI_Model {
         return $this->get(NULL, $single);
     }
     
-    public function get_like($like, $fields='*', $offset=0, $limit=20, $method='result'){
+    public function get_like($like, $fields='*', $offset=0, $limit=0, $method='result'){
         if (!is_array($like))
             return FALSE;
         
@@ -240,7 +240,7 @@ class MY_Model extends CI_Model {
         return $row->found;
     }
     
-    public function get_wherein_offset($fields = '*', $wherein_list='', $offset=0, $limit=20, $method='result'){
+    public function get_wherein_offset($wherein_list, $fields = '*', $offset=0, $limit=0, $method='result'){
         $this->db->select($fields);
         
         if ($wherein_list)
@@ -389,35 +389,6 @@ class MY_Model extends CI_Model {
             $this->db->insert('logs', $data);
         }
     }
-    
-    public function my_upload($field_name, $config, &$message='',$initConfig = TRUE){
-        
-        $this->load->library('upload');
-        
-        if ($initConfig)
-            $this->upload->initialize($config);
-        
-        if ( ! $this->upload->do_upload($field_name)){
-            $message = $this->upload->display_errors();
-            return FALSE;
-        }
-        else{
-            return $this->upload->data();
-        }
-    }
-    
-    public function image_manipulation($config, &$message='', $type='resize'){
-        $this->load->library('image_lib', $config); 
-
-        if (!$this->image_lib->$type()){
-            $message = $this->image_lib->display_errors();
-            return FALSE;
-        }
-        else{
-            return TRUE;
-        }
-    }
-    
 }
 
 
