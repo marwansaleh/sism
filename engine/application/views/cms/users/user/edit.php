@@ -147,7 +147,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="form-group">
                                     <label>Password</label>
                                     <div class="input-group">
@@ -158,13 +158,19 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="form-group">
                                     <label>Set Active User</label>
                                     <select name="is_active" class="form-control">
                                         <option value="0" <?php echo $item->is_active==0?'selected':''; ?>>Not Active</option>
                                         <option value="1" <?php echo $item->is_active==1?'selected':''; ?>>Active</option>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Sort Order</label>
+                                    <input type="number" step="1" min="0" name="sort" class="form-control nospace" value="<?php echo $item->sort; ?>">
                                 </div>
                             </div>
                         </div>
