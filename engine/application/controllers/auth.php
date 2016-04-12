@@ -8,10 +8,12 @@ class Auth extends MY_Controller {
     
     function __construct() {
         parent::__construct();
-        $this->data['body_class'] = 'login-img-body';
+        $this->data['body_class'] = 'login-body';
     }
     
     function index(){
+        $this->_check_body_cover();
+        
         $this->load->helper('cookie');
         
         if ($this->users->isLoggedin()){
@@ -20,8 +22,6 @@ class Auth extends MY_Controller {
         
         if ($this->session->flashdata('message')){
             $this->data['message_error'] = create_alert_box($this->session->flashdata('message'), $this->session->flashdata('message_type'));
-            
-            var_dump($this->data['message_error']);exit;
         }
         
         $cookie_login = $this->input->cookie('cookie-login');
@@ -35,6 +35,33 @@ class Auth extends MY_Controller {
         $this->data['subview'] = 'login/index';
         //var_dump($cookie_login);
         $this->load->view('_layout_login', $this->data);
+    }
+    
+    private function _check_body_cover(){
+        $body_cover = $this->get_sysvar_value('LOGIN_PAGE_BG_IMAGE');
+        if ($body_cover){
+            if ($body_cover != 'NULL' || $body_cover != 'none'){
+                //set body cover in global style
+                if (file_exists($body_cover)){
+                    $this->_global_style($body_cover);
+                }
+            }
+        }
+        return NULL;
+    }
+    
+    private function _global_style($cover){
+        $global_style = '<style>
+                .login-body{
+                    background: url("'.$cover.'") no-repeat center center fixed; 
+                    -webkit-background-size: cover;
+                    -moz-background-size: cover;
+                    -o-background-size: cover;
+                    background-size: cover;
+                }
+                </style>';
+        $this->data['global_style'] = $global_style;
+        $this->data['body_class'] = 'login-body';
     }
     
     function login(){

@@ -100,6 +100,8 @@ class PDFTemplate extends FPDF {
         if (method_exists($this, $method_name)){
             $this->$method_name($data, $template->styles, $file_name);
             exit;
+        }else{
+            exit('No handler for this template');
         }
     }
     
@@ -113,7 +115,7 @@ class PDFTemplate extends FPDF {
     
     protected function surat_biasa($data, $style=NULL, $file_name=NULL){
         $this->SetTitle('Surat Keluar Biasa');
-        $this->SetSubject('Surat Keterangan');
+        $this->SetSubject('Surat Keluar Biasa');
         if ($style){
             $this->SetFont($style->font_name);
             $this->SetMargins($style->margin[0], $style->margin[1]);
@@ -271,9 +273,217 @@ class PDFTemplate extends FPDF {
         $this->Output($file_name);
     }
     
+    protected function surat_ijin($data, $style=NULL, $file_name=NULL){
+        $this->SetTitle('Surat Izin');
+        $this->SetSubject('Surat Izin');
+        
+        if ($style){
+            $this->SetFont($style->font_name);
+            $this->SetMargins($style->margin[0], $style->margin[1]);
+            $this->AddPage($style->orientation, $this->_get_paper_size($style->page));
+            
+            //set local margin and content width
+            $this->_margin = $style->margin;
+            $this->_page_content_width = $this->_page_width - (2*$this->_margin[0]);
+        }
+        
+        /**** mail header ****/
+        $this->_set_common_header($data);
+        
+        /***** Content *****/
+        
+        //set content width smaller then used to be
+        $content_indent = 20;
+        $content_width = $this->_page_content_width - $content_indent;
+        
+        $this->Ln(self::LN_SINGLE);
+        $this->SetFontSize(13);
+        $this->Cell($this->_page_content_width, self::LN_SINGLE, 'SURAT IZIN KEPALA BAPPEDA', 0, 1, 'C');
+        $this->Cell($this->_page_content_width, self::LN_SINGLE, 'NOMOR '.$this->_parse_autotext('{nomor_surat}'), 0, 1, 'C');
+        
+        $this->Ln(self::LN_SINGLE);
+        $this->Cell($this->_page_content_width, self::LN_SINGLE, 'TENTANG', 0, 1, 'C');
+        $this->Ln(self::LN_SINGLE);
+        $this->SetFontSize(12);
+        
+        $this->Cell($content_indent);
+        $this->Cell($content_width, self::LN_SINGLE, $this->_parse_autotext('{subjek_surat}'),0,1);
+        
+        
+        //Move indent
+        $this->Cell($content_indent);
+        $this->Cell($content_width, self::LN_HALF, 'Dasar :', 0, 1);
+        
+        //get tembusan must in array
+        $dasarijin = $this->_parse_autotext('{dasarijin}');
+        if ($dasarijin && is_array($dasarijin)){
+            foreach ($dasarijin as $index => $dasarijin_rec){
+                $this->Cell($content_indent+10);
+                $this->Cell($content_width, self::LN_SINGLE, ($index+1) . '. ' . $dasarijin_rec,0,1);
+            }
+        }
+        
+        $this->Ln(self::LN_DOUBLE);
+        $this->Cell($this->_page_content_width, self::LN_SINGLE, 'MEMBERI IZIN', 0, 1, 'C');
+        
+        //Insert first table
+        $table_indent = $content_indent;
+        
+        $this->_insert_table(array(
+            array(
+                array('width'=>40,'value'=>'Kepada'),
+                array('width'=>$this->_page_content_width-40-$table_indent,'value'=>': '),
+            )
+        ),0,$table_indent);
+        
+        $this->Ln(self::LN_SINGLE);
+        
+        $this->_insert_table(array(
+            array(
+                array('width'=>40,'value'=>'a. Nama'),
+                array('width'=>$this->_page_content_width-40-$table_indent,'value'=>': '.$this->_parse_autotext('{namaijin}')),
+            ),
+            array(
+                array('width'=>40,'value'=>'b. Jabatan'),
+                array('width'=>$this->_page_content_width-40-$table_indent,'value'=>': '.$this->_parse_autotext('{jabatanijin}')),
+            ),
+            array(
+                array('width'=>40,'value'=>'c. Alamat'),
+                array('width'=>$this->_page_content_width-40-$table_indent,'value'=>': '.$this->_parse_autotext('{alamatijin}')),
+            )
+        ),0,$table_indent);
+        
+        $this->Ln(self::LN_SINGLE);
+        
+        $this->_insert_table(array(
+            array(
+                array('width'=>40,'value'=>'Untuk'),
+                array('width'=>$this->_page_content_width-40-$table_indent,'value'=>': '.$this->_parse_autotext('{untukijin}')),
+            )
+        ),0,$table_indent);
+        
+        
+        $this->Ln(self::LN_DOUBLE);
+        //Move indent
+        $half_page = ceil($this->_page_content_width/2);
+        $this->Cell($half_page);
+        $this->Cell($half_page,self::LN_SINGLE, 'Ditetapkan di Lubuklinggau',0,1);
+        $this->Cell($half_page);
+        $this->Cell($half_page,self::LN_SINGLE, $this->_parse_autotext('{tanggal_surat}'),0,1);
+        
+        //draw footer
+        $this->_set_common_footer($data);
+        
+        //show output
+        $this->Output($file_name);
+    }
+    
+    protected function surat_perintah($data, $style=NULL, $file_name=NULL){
+        $this->SetTitle('Surat Perintah');
+        $this->SetSubject('Surat Perintah');
+        
+        if ($style){
+            $this->SetFont($style->font_name);
+            $this->SetMargins($style->margin[0], $style->margin[1]);
+            $this->AddPage($style->orientation, $this->_get_paper_size($style->page));
+            
+            //set local margin and content width
+            $this->_margin = $style->margin;
+            $this->_page_content_width = $this->_page_width - (2*$this->_margin[0]);
+        }
+        
+        /**** mail header ****/
+        $this->_set_common_header($data);
+        
+        /***** Content *****/
+        
+        //set content width smaller then used to be
+        $content_indent = 20;
+        $content_width = $this->_page_content_width - $content_indent;
+        
+        $this->Ln(self::LN_SINGLE);
+        $this->SetFontSize(13);
+        $this->Cell($this->_page_content_width, self::LN_SINGLE, 'SURAT PERINTAH', 0, 1, 'C');
+        $this->Cell($this->_page_content_width, self::LN_SINGLE, 'NOMOR '.$this->_parse_autotext('{nomor_surat}'), 0, 1, 'C');
+        
+        $this->SetFontSize(12);
+        
+        //Insert first table
+        $table_indent = $content_indent;
+        
+        $this->Ln(self::LN_SINGLE);
+        
+        $this->_insert_table(array(
+            array(
+                array('width'=>$this->_page_content_width-60-$table_indent,'value'=>'Nama (yang memberikan perintah)'),
+                array('width'=>60,'value'=>': '.$this->_parse_autotext('{namapemberiperintah}')),
+            ),
+            array(
+                array('width'=>$this->_page_content_width-60-$table_indent,'value'=>'Jabatan'),
+                array('width'=>60,'value'=>': '.$this->_parse_autotext('{jabatanpemberiperintah}')),
+            )
+        ),0,$table_indent);
+        
+        $this->Ln(self::LN_SINGLE);
+        
+        $this->Cell($this->_page_content_width, self::LN_SINGLE, 'MEMERINTAHKAN', 0, 1, 'C');
+        
+        $this->_insert_table(array(
+            array(
+                array('width'=>40,'value'=>'Kepada'),
+                array('width'=>$this->_page_content_width-40-$table_indent,'value'=>': '),
+            )
+        ),0,$table_indent);
+        
+        $this->Ln(self::LN_SINGLE);
+        
+        $this->_insert_table(array(
+            array(
+                array('width'=>40,'value'=>'a. Nama'),
+                array('width'=>$this->_page_content_width-40-$table_indent,'value'=>': '.$this->_parse_autotext('{namapenerimaperintah}')),
+            ),
+            array(
+                array('width'=>40,'value'=>'b. Jabatan'),
+                array('width'=>$this->_page_content_width-40-$table_indent,'value'=>': '.$this->_parse_autotext('{jabatanpenerimaperintah}')),
+            )
+        ),0,$table_indent);
+        
+        $this->Ln(self::LN_SINGLE);
+        $this->_insert_table(array(
+            array(
+                array('width'=>40,'value'=>'Untuk'),
+                array('width'=>$this->_page_content_width-40-$table_indent,'value'=>': '),
+            )
+        ),0,$table_indent);
+        
+        if (isset($data['content'])){
+            $content = preg_split('/\n|\r/', $data['content'], -1, PREG_SPLIT_NO_EMPTY);
+            foreach ($content as $line_text){
+                $this->Ln(self::LN_SINGLE);
+                $this->Cell($content_indent);
+                $this->Write(self::LN_SINGLE, $line_text);
+                $this->Ln(self::LN_SINGLE);
+            }
+        }
+        
+        $this->Ln(self::LN_DOUBLE);
+        //Move indent
+        $half_page = ceil($this->_page_content_width/2);
+        $this->Cell($half_page);
+        $this->Cell($half_page,self::LN_SINGLE, 'Ditetapkan di Lubuklinggau',0,1);
+        $this->Cell($half_page);
+        $this->Cell($half_page,self::LN_SINGLE, $this->_parse_autotext('{tanggal_surat}'),0,1);
+        
+        //draw footer
+        $this->_set_common_footer($data);
+        
+        //show output
+        $this->Output($file_name);
+    }
+    
     private function _set_common_header($data){
         //create image logo
-        $logo_img_wdth = 30;
+        $logo_img_wdth = 20;
         //try to get logo
         $logo_url = $this->_parse_autotext('{logo}');
         if ($logo_url != '{logo}'){
@@ -296,7 +506,7 @@ class PDFTemplate extends FPDF {
         $this->Cell($mail_header_width, self::LN_SINGLE,'Jalan '. $this->_parse_autotext('{nama_jalan}').' Lubuklinggau',0,1,'C');
         //Move to the right of image logo
         $this->Cell($logo_img_wdth);
-        $this->Cell($mail_header_width, self::LN_SINGLE,'Telepon '. $this->_parse_autotext('{nomor_telepon}').' Faksimile '. $this->_parse_autotext('{nomor_faksimile}').' Kode Pos '. $this->_parse_autotext('{kode_pos}').'',0,1,'C');
+        $this->Cell($mail_header_width, self::LN_SINGLE,'Telepon '. $this->_parse_autotext('{nomor_telepon}').' Faksimile '. $this->_parse_autotext('{nomor_faksimile}'),0,1,'C');
         //Move to the right of image logo
         $this->Cell($logo_img_wdth);
         $this->Cell($mail_header_width, self::LN_SINGLE,'Email '.$this->_parse_autotext('{alamat_email}').' Website '.$this->_parse_autotext('{website}'),0,1,'C');
@@ -314,7 +524,7 @@ class PDFTemplate extends FPDF {
         //get width for each two column
         $half_page = ceil($this->_page_content_width/2);
         
-        $this->Ln(self::LN_DOUBLE);
+        $this->Ln(self::LN_SINGLE);
         $this->Cell($half_page);
         $this->Cell($half_page, self::LN_SINGLE,'KEPALA BAPPEDA',0,1,'C');
         $this->Ln(self::LN_XTRA_DOUBLE);

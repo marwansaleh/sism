@@ -41,7 +41,7 @@ class Upload extends MY_Ajax {
                 $upload_data = $this->upload->data();
                 $result['upload'][] = $upload_data['file_name'];
                 $result['initialPreview'] [] = '<img src="'.  site_url(attachment_thumbnail($upload_data['file_name'])).'" class="file-preview-image" >';
-                $result['initialPreviewConfig'] [] = ['caption' => basename($upload_data['raw_name']), 'width' => '80px', 'url' => site_url('ajax/upload/delete'), 'key' => base64_encode($upload_data['file_name'])];
+                $result['initialPreviewConfig'] [] = array('caption' => basename($upload_data['raw_name']), 'width' => '80px', 'url' => site_url('ajax/upload/delete'), 'key' => base64_encode($upload_data['file_name']));
                 
             }else{
                 $result['error'] = $this->upload->display_errors() . ' Ensure your files in format of '.$config['allowed_types'];

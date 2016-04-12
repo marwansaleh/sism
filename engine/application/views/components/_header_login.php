@@ -25,5 +25,6 @@
           <script src="<?php echo site_url(config_item('path_lib').'lte-ie7/lte-ie7.js'); ?>"></script>
         <![endif]-->
     </head>
+    <?php echo isset($global_style)?$global_style:''; ?>
     <body <?php echo isset($body_class) && $body_class?'class="'.$body_class.'"':''; ?>>
     

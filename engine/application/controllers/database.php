@@ -90,10 +90,39 @@ class Database extends MY_AdminController {
         redirect('database');
     }
     
+    function download(){
+        $filepath = $this->input->get('path');
+        if ($filepath){
+            $filepath = base64_decode($filepath);
+            
+            if (file_exists($filepath)){
+                $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
+                $mime_type = finfo_file($finfo, $filepath);
+                finfo_close($finfo);
+                
+                header('Content-Description: File Transfer');
+                header('Content-Type: '.$mime_type);
+                header('Content-Disposition: attachment; filename="'.basename($filepath).'"');
+                header('Expires: 0');
+                header('Cache-Control: must-revalidate');
+                header('Pragma: public');
+                header('Content-Length: ' . filesize($filepath));
+                readfile($file);
+            }else{
+                echo "<p>File not found</p>";
+            }
+        }else{
+            echo "<p>Parameter not complete</p>";
+        }
+        exit;
+    }
+    
     private function _get_all_backups(){
+        $db_name = $this->db->database ? $this->db->database :'mydb';
+        
         $backups = array();
         
-        foreach (glob($this->backup_path . 'mydb*.*') as $db){
+        foreach (glob($this->backup_path . $db_name.'*.*') as $db){
             $file = new stdClass();
             $file->name = basename($db);
             $file->path = $db;

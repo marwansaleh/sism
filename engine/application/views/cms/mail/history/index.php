@@ -5,7 +5,7 @@ Lihat attachments:
 <a target="_blank" class="btn btn-default btn-sm" href="<?php echo site_url('history/attachment?q='.  base64_encode(config_item('attachments').$att->file_name)); ?>"><?php echo $att->file_name; ?></a>
 <?php endforeach; ?>
 <?php endif; ?>
-<table role="table" class="table table-condensed table-hover">
+<table id="mail-history" role="table" class="table table-condensed">
     <thead>
         <tr>
             <th style="width: 150px;" class="text-center">Tanggal</th>

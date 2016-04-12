@@ -71,7 +71,7 @@ class Outgoing extends MY_AdminController {
         //get templates
         $this->load->model('mail/template_m');
         $this->data['templates'] = array();
-        foreach ($this->template_m->get() as $tmp){
+        foreach ($this->template_m->get_by(array('available'=>1)) as $tmp){
             $tmp->label = ucfirst(str_replace('_', ' ', $tmp->name));
             $this->data['templates'] [] = $tmp;
         }
@@ -243,6 +243,46 @@ class Outgoing extends MY_AdminController {
         
         $stdClass = new stdClass();
         $key_search = 'sk_';
+        foreach ($this->input->post() as $key=>$value){
+            if (strpos($key, $key_search)!==FALSE){
+                $key = str_replace($key_search, '', $key);
+                $stdClass->$key = $value;
+            }
+        }
+        
+        if (!$this->input->post('literally_signer')){
+            $stdClass->nama_pengirim = $this->input->post('nama_pengirim');
+            $stdClass->pangkat_pengirim = $this->input->post('pangkat_pengirim');
+            $stdClass->nip_pengirim = $this->input->post('nip_pengirim');
+        }
+        
+        $this->outgoing_m->save(array('elements'=>  json_encode($stdClass)),$id);
+    }
+    
+    private function _save_surat_ijin($id){
+        
+        $stdClass = new stdClass();
+        $key_search = 'si_';
+        foreach ($this->input->post() as $key=>$value){
+            if (strpos($key, $key_search)!==FALSE){
+                $key = str_replace($key_search, '', $key);
+                $stdClass->$key = $value;
+            }
+        }
+        
+        if (!$this->input->post('literally_signer')){
+            $stdClass->nama_pengirim = $this->input->post('nama_pengirim');
+            $stdClass->pangkat_pengirim = $this->input->post('pangkat_pengirim');
+            $stdClass->nip_pengirim = $this->input->post('nip_pengirim');
+        }
+        
+        $this->outgoing_m->save(array('elements'=>  json_encode($stdClass)),$id);
+    }
+    
+    private function _save_surat_perintah($id){
+        
+        $stdClass = new stdClass();
+        $key_search = 'sp_';
         foreach ($this->input->post() as $key=>$value){
             if (strpos($key, $key_search)!==FALSE){
                 $key = str_replace($key_search, '', $key);

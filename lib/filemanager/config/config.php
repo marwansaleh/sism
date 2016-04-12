@@ -19,16 +19,15 @@ mb_internal_encoding('UTF-8');
 //    |   |   |   |- responsivefilemanager
 //    |   |   |   |   |- plugin.min.js
 
-/*
+
 $base_url =
 	// Get HTTP/HTTPS
 	((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] && !in_array(strtolower($_SERVER['HTTPS']),array('off','no'))) ? 'https' : 'http').
 	'://'.
 	// Get domain portion
 	$_SERVER['HTTP_HOST']; // DON'T TOUCH (base url (only domain) of site (without final /)).
- * 
- */
-$base_url = 'http://localhost/projects/htdocs/nasabahco';
+ 
+//$base_url = 'http://localhost/projects/htdocs/nasabahco';
 $upload_dir = '/userfiles/images/'; // path from base_url to base of upload folder (with start and final /)
 $current_path = '../../userfiles/images/'; // relative path from filemanager folder to upload folder (with final /)
 //thumbs folder can't put inside upload folder
@@ -101,7 +100,7 @@ $image_max_mode   = 'crop';
 // If you set $image_resizing to TRUE the script converts all uploaded images exactly to image_resizing_width x image_resizing_height dimension
 // If you set width or height to 0 the script automatically calculates the other dimension
 // Is possible that if you upload very big images the script not work to overcome this increase the php configuration of memory and time limit
-$image_resizing 		= TRUE;
+$image_resizing 		= FALSE;
 $image_resizing_width 		= 981;
 $image_resizing_height 		= 376;
 $image_resizing_mode 		= 'crop'; // same as $image_max_mode
@@ -211,7 +210,7 @@ $JAVAMaxSizeUpload = 200; //Gb
 // path_from_filemanager/test/test1/
 // PS if there isn't write permission in your destination folder you must set it
 // 
-$fixed_image_creation                   = TRUE; //activate or not the creation of one or more image resized with fixed path from filemanager folder
+$fixed_image_creation                   = FALSE; //activate or not the creation of one or more image resized with fixed path from filemanager folder
 $fixed_path_from_filemanager            = array('../../userfiles/thumbs/large/','../../userfiles/thumbs/medium/','../../userfiles/thumbs/small/','../../userfiles/thumbs/square/','../../userfiles/thumbs/smaller/','../../userfiles/thumbs/tiny/'); //fixed path of the image folder from the current position on upload folder
 $fixed_image_creation_name_to_prepend   = array('','','','','',''); //name to prepend on filename
 $fixed_image_creation_to_append         = array('','','','','',''); //name to appendon filename

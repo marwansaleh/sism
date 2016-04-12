@@ -62,3 +62,44 @@ if (!function_exists('custom_select_extensions')){
         return $str;
     }
 }
+
+if (!function_exists('browse_image')){
+    function browse_image($activeSelected=NULL,$type=NULL){
+        $fileman_path = config_item('path_lib') .'filemanager/dialog.php';
+        if ($activeSelected=='none' || $activeSelected=='NULL'){
+            $activeSelected = NULL;
+        }
+        $str = '<br>';
+        $str.= '<div class="form-group">';
+            $str.= '<input type="hidden" id="browse_image" name="var_value" value="'.$activeSelected.'">';
+            $str.= '<div class="input-group">';
+                $str.= '<input type="text" readonly="true" class="form-control disabled" id="selected_image" name="selected_image" value="'.$activeSelected.'" placeholder="Browse image..">';
+                $str.= '<div class="input-group-btn">';
+                    $str.= '<a href="'.$fileman_path.'?type=1&&fldr='.$type.'&field_id=selected_image&relative_url=1&iframe=true&width=80%&height=80%"  rel="prettyPhoto" class="btn btn-default"><i class="fa fa-upload"></i> Browse Image</a>';
+                    $str.= '<button type="button" class="btn btn-warning" onclick="removeBrowseImage()"><i class="fa fa-remove"></i> Remove Image</button>';
+                $str.= '</div>';
+            $str.= '</div>';
+        $str.= '</div>';
+        $str.= '<div class="form-group" id="browse-image-container">
+                <img class="img-responsive" '.($activeSelected?'src="'.$activeSelected.'"':'').'
+            </div>';
+        $str.= '<script type="text/javascript">';
+        $str.= 'var baseImage="'.  config_item('images').'";';
+        $str.= 'function responsive_filemanager_callback(field_id){
+                    var image_name = baseImage + document.getElementById(field_id).value;
+                    //set display image with base image url
+                    document.getElementById(field_id).value = image_name;
+                    //set image field value
+                    $("#browse_image").val(image_name);
+                    $("#browse-image-container").find("img").attr("src",image_name); 
+                    alert(image_name);
+                }';
+        $str.= 'function removeBrowseImage(){
+                    $("#browse_image").val("NULL");
+                    $("#selected_image").val("");
+                    $("#browse-image-container").find("img").attr("src",""); 
+                }';
+        $str.= '</script>';
+        return $str;
+    }
+}

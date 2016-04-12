@@ -5,6 +5,16 @@
  * @author marwansaleh
  */
 class Template extends MY_AdminController {
+    const TMPL_PATH = 'views/cms/mail/outgoing/options/';
+    const TMPL_SRC = 'views/cms/mail/outgoing/options/surat_biasa.php';
+    
+    private $_tmpl_err_message = array (
+        0   => 'Unknown error',
+        1   => 'Success, no error',
+        -1  => 'Template folder is not writable',
+        -2  => 'Failed copy from source template'
+    );
+    
     function __construct() {
         parent::__construct();
         $this->data['active_menu'] = 'template';
@@ -13,6 +23,8 @@ class Template extends MY_AdminController {
         
         //Loading model
         $this->load->model(array('mail/template_m'));
+        
+        
     }
     
     function index(){
@@ -129,6 +141,16 @@ class Template extends MY_AdminController {
                 $this->session->set_flashdata('message_type','success');
                 $this->session->set_flashdata('message', 'Data template saved successfully');
                 
+                //check if template file needs to be created
+                $tmpl_name = $postdata['name'] .'.php';
+                if (!file_exists(APPPATH . self::TMPL_PATH . $tmpl_name)){
+                    if (($tmpl_gen_err=$this->_generate_tmpl_file($tmpl_name))<1){
+                        //thereis an error
+                        $this->session->set_flashdata('message_type','success');
+                        $this->session->set_flashdata('message', 'Data template saved successfully but some error while creating template: '. $this->_tmpl_err_message[$tmpl_gen_err]);
+                    }
+                }
+                
                 redirect('template/index?page='.$page);
             }else{
                 $this->session->set_flashdata('message_type','error');
@@ -159,6 +181,21 @@ class Template extends MY_AdminController {
             return TRUE;
         }
         
+    }
+    
+    function _generate_tmpl_file($tmpl_name){
+        //check if target path is writable
+        if (!is_writable(APPPATH . self::TMPL_PATH)){
+            return -1;
+        }
+        if (!copy(APPPATH . self::TMPL_SRC, APPPATH . self::TMPL_PATH . $tmpl_name)){
+            return -2;
+        }else{
+            chmod(APPPATH . self::TMPL_PATH . $tmpl_name, 0777);
+            return 1;
+        }
+        
+        return 0;
     }
     
     function preview($key='biasa'){
@@ -197,31 +234,31 @@ class Template extends MY_AdminController {
         $id = $this->input->get('id', TRUE);
         $page = $this->input->get('page', TRUE);
         
-        if (!$this->users->has_access('SYS_PARAMETERS')){
+        if (!$this->users->has_access('TEMPLATE_MANAGEMENT')){
             $this->session->set_flashdata('message_type','error');
             $this->session->set_flashdata('message', 'Sorry. You dont have access for this feature');
-            redirect('sysconf/index?page='.$page);
+            redirect('template/index?page='.$page);
         }
         
         //check if found data item
-        $item = $this->sys_variables_m->get($id);
+        $item = $this->template_m->get($id);
         if (!$item){
             $this->session->set_flashdata('message_type','error');
-            $this->session->set_flashdata('message', 'Could not find data config item. Delete failed!');
+            $this->session->set_flashdata('message', 'Could not find data template item. Delete failed!');
         }else{
-            if ($this->sys_variables_m->delete($id)){
+            if ($this->template_m->delete($id)){
                 $this->session->set_flashdata('message_type','success');
-                $this->session->set_flashdata('message', 'Data configuration item deleted successfully');
+                $this->session->set_flashdata('message', 'Data template item deleted successfully');
             }else{
                 $this->session->set_flashdata('message_type','error');
-                $this->session->set_flashdata('message', $this->sys_variables_m->get_last_message());
+                $this->session->set_flashdata('message', $this->template_m->get_last_message());
             }
         }
         
-        redirect('sysconf/index?page='.$page);
+        redirect('template/index?page='.$page);
     }
 }
 
 /*
- * file location: engine/application/controllers/sysconf.php
+ * file location: engine/application/controllers/template.php
  */

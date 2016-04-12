@@ -5,7 +5,8 @@
     <div class="container">
         <form method="post" id="login-form" class="login-form" >        
             <div class="login-wrap">
-                <p class="login-img"><i class="icon_lock_alt"></i></p>
+                <!--<p class="login-img"><i class="icon_lock_alt"></i></p>-->
+                <img class="image" src="<?php echo site_url(config_item('path_assets').'img/logo-lubuklinggau.png'); ?>" />
                 <div class="input-group">
                     <span class="input-group-addon"><i class="icon_profile"></i></span>
                     <input type="text" class="form-control" name="username" placeholder="Username" value="<?php echo $remember ? $remember->username:''; ?>" autofocus>

@@ -6,7 +6,17 @@
 <div class="container">
     <form method="post" id="login-form" class="login-form" action="<?php echo $submit; ?>" >        
         <div class="login-wrap">
-            <p class="login-img"><i class="icon_lock_alt"></i></p>
+            <!--<p class="login-img"><i class="icon_lock_alt"></i></p>-->
+            <div class="media">
+                <div class="media-left">
+                    <img class="image" style="width: 40px;" src="<?php echo site_url(config_item('path_assets').'img/logo-lubuklinggau.png'); ?>" />
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">Sistem Informasi Surat Menyurat</h4>
+                    <p style="text-align: left;">Silahkan masukkan username dan password untuk login</p>
+                </div>
+            </div>
+            <hr>
             <div class="input-group">
                 <span class="input-group-addon"><i class="icon_profile"></i></span>
                 <input type="text" class="form-control" name="username" placeholder="Username /email" value="<?php echo $remember ? $remember->username:''; ?>" autofocus>
@@ -16,7 +26,7 @@
                 <input type="password" class="form-control" name="password" value="<?php echo $remember ? $remember->password:''; ?>" placeholder="Password">
             </div>
             <label class="checkbox">
-                <input type="checkbox" name="remember" value="remember-me" <?php echo $remember?'checked="checked"':''; ?>> Remember me
+                <input type="checkbox" name="remember" value="remember-me" <?php echo $remember?'checked="checked"':''; ?>> Ingat Saya
                 <span class="pull-right"> <a href="#"> Forgot Password?</a></span>
             </label>
             <button id="btn-login" class="btn btn-primary btn-lg btn-block" data-loading-text="loading..." type="submit">Login</button>

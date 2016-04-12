@@ -27,7 +27,7 @@
                             <th style="width: 120px">Pengirim</th>
                             <th style="width: 120px">Penerima</th>
                             <th class="text-center">Status</th>
-                            <th>Posisi</th>
+                            <th>Posisi Surat</th>
                             <th class="text-center"><i class="fa fa-link"></i></th>
                             <th class="text-center" style="width: 120px">Action</th>
                         </tr>

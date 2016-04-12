@@ -36,6 +36,7 @@
                             <td><?php echo date('d-m-Y H:i:s',$item->time); ?></td>
                             <td><?php echo number_format($item->size); ?> bytes</td>
                             <td class="text-center">
+                                <a class="btn btn-xs btn-success" data-toggle="tooltip" title="Download" target="blank" href="<?php echo site_url('database/download?path='.base64_encode($item->path)); ?>"><i class="fa fa-download"></i></a>
                                 <a class="btn btn-xs btn-danger confirmation" data-toggle="tooltip" title="Delete" data-confirmation="Are your sure to delete this record ?" href="<?php echo site_url('database/delete?path='.base64_encode($item->path)); ?>"><i class="fa fa-minus-square"></i></a>
                             </td>
                         </tr>

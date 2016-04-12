@@ -18,12 +18,14 @@
             <div class="box-body">
                 <div class="form-group">
                     <label>Referensi Surat</label>
-                    <select name="incoming_ref_id" class="form-control selectpicker" data-live-search="true" data-size="5"data-header="Pilih referensi surat">
+                    <select id="incoming_ref_id" name="incoming_ref_id" class="form-control selectpicker" data-live-search="true" data-size="5"data-header="Pilih referensi surat">
                         <option value="0"></option>
                         <?php foreach ($incomings as $incoming): ?>
                         <option value="<?php echo $incoming->id; ?>" <?php echo $incoming->id==$item->incoming_ref_id?'selected':''; ?>><?php echo $incoming->subject; ?></option>
                         <?php endforeach; ?>
                     </select>
+                </div>
+                <div id="incoming_ref_preview" class="well well-sm">
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
@@ -95,23 +97,51 @@
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function(){
-        $('#btn-preview').on('click', function(){
-            if (!$('input#id').val()){
-                alert('Surat harus disimpan terlebih dahulu untuk melihat preview');
-                return false;
+    var OutGoingManager = {
+        selectedRefId : 0,
+        init: function (){
+            this.prepareEvent();
+            this.loadReference(this.selectedRefId);
+        },
+        loadReference : function (incoming_id){
+            if (incoming_id==0){
+                $('#incoming_ref_preview').addClass('hidden');
+            }else{
+                $('#incoming_ref_preview').removeClass('hidden').html('<p class="text-center">Loading references...</p>');
+                
+                //loading html data
+                $('#incoming_ref_preview').load('<?php echo site_url('history/index'); ?>/'+incoming_id+' #mail-history', function (){
+                    $('#mail-history').addClass('small');
+                });
             }
+        },
+        prepareEvent : function () {
+            var _this = this;
+            $('#incoming_ref_id').on('change', function(){
+                _this.loadReference($(this).val());
+            });
             
-            var wnd = window.open("<?php echo site_url('outgoing/preview'); ?>/"+$('#id').val());
-            wnd.focus();
-        });
-        $('#literally_signer').on('click', function(){
-            $('#literal-signer-container').toggleClass('hidden');
-        });
-        $('#btn-show-attachment').on('click', function(){
-            $(this).find('i').toggleClass('fa-eye-slash');
-            $('#attachment-container').toggle('display');
-        });
-        
+            $('#btn-preview').on('click', function(){
+                if (!$('input#id').val()){
+                    alert('Surat harus disimpan terlebih dahulu untuk melihat preview');
+                    return false;
+                }
+
+                var wnd = window.open("<?php echo site_url('outgoing/preview'); ?>/"+$('#id').val());
+                wnd.focus();
+            });
+            $('#literally_signer').on('click', function(){
+                $('#literal-signer-container').toggleClass('hidden');
+            });
+            $('#btn-show-attachment').on('click', function(){
+                $(this).find('i').toggleClass('fa-eye-slash');
+                $('#attachment-container').toggle('display');
+            });
+        }
+    };
+    
+    $(document).ready(function(){
+        OutGoingManager.selectedRefId = $('#incoming_ref_id').val();
+        OutGoingManager.init();
     });
 </script>

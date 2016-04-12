@@ -18,11 +18,20 @@
                 </div>
                 <div class="form-group">
                     <label>Configuration Value</label>
-                    <?php if ($item->func_custom_value && function_exists($item->func_custom_value)):?>
-                    <?php $func =  $item->func_custom_value; echo $func($item->var_value);?>
-                    <?php else: ?>
+                    <?php if ($item->func_custom_value){
+                        $func_array = explode(',', $item->func_custom_value);
+                        $func_name =  $func_array[0]; 
+                        if (function_exists($func_name)){
+                            if (count($func_array)==1){
+                                echo $func_name($item->var_value);
+                            }else{
+                                $func_array[0] = $item->var_value;
+                                echo call_user_func_array($func_name, $func_array);
+                            }
+                        }
+                    }else{ ?>
                     <input type="text" name="var_value" class="form-control" placeholder="Variable value ..." value="<?php echo $item->var_value; ?>">
-                    <?php endif; ?>
+                    <?php } ?>
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
