@@ -49,9 +49,9 @@ $active_group = 'default';
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'root';
-$db['default']['password'] = '';
-$db['default']['database'] = 'sism_main_db';
+$db['default']['username'] = 'bappeda-sism';
+$db['default']['password'] = 'bappedasism2016';
+$db['default']['database'] = 'bappeda-sism';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = 'sism_';
 $db['default']['pconnect'] = TRUE;
