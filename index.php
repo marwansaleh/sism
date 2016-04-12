@@ -3,7 +3,7 @@ date_default_timezone_set('Asia/Jakarta');
 
 $path = dirname(__FILE__);
 $testing = '/home/sloki/user/k8721830/sites/sism.nasabah.co/www';
-$production = '/path/to/production';
+$production = '/home/bappeda-domain/public_html/sism';
 
 switch ($path){
     case $production: define('ENVIRONMENT', 'production'); break;
